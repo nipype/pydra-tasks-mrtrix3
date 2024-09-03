@@ -167,7 +167,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Download version file
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: VersionFile
         path: mrtrix3_version.txt
@@ -176,7 +176,7 @@ jobs:
       run: echo "MRTRIX_VERSION=$(cat mrtrix3_version.txt)" >> $GITHUB_ENV
 
     - name: Download auto-gen pydra
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: AutoGen
         path: pydra/tasks/mrtrix3/${{ env.SUBPKG_NAME }}
@@ -226,7 +226,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Download version file
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: VersionFile
         path: mrtrix3_version.txt
@@ -235,7 +235,7 @@ jobs:
       run: echo "MRTRIX_VERSION=$(cat mrtrix3_version.txt)" >> $GITHUB_ENV
 
     - name: Download auto-gen pydra
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: AutoGen
         path: pydra/tasks/mrtrix3/${{ env.SUBPKG_NAME }}
@@ -245,7 +245,7 @@ jobs:
         sed -i '/\/pydra\/tasks\/mrtrix3\/${{ env.SUBPKG_NAME }}/d' .gitignore
 
     - name: Download MRtrix3 install
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: MRtrix3
         path: ${{ env.MRTRIX_INSTALL}}
@@ -363,7 +363,7 @@ jobs:
         git config --local user.name "GitHub Action"
 
     - name: Download version file
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: VersionFile
         path: mrtrix3_version.txt
@@ -372,7 +372,7 @@ jobs:
       run: echo "MRTRIX_VERSION=$(cat mrtrix3_version.txt)" >> $GITHUB_ENV
 
     - name: Download auto-gen pydra
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: AutoGen
         path: pydra/tasks/mrtrix3/${{ env.SUBPKG_NAME }}
