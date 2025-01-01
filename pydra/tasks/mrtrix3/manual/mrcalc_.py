@@ -81,7 +81,7 @@ input_fields = [
             "sep": " ",
             "position": 0,
             "formatter": operations_formatter,
-            "help_string": """an input image, intensity value, or the special keywords 'rand' (random number between 0 and 1) or 'randn' (random number from unit std.dev. normal distribution) or the mathematical constants 'e' and 'pi'.""",
+            "help": """an input image, intensity value, or the special keywords 'rand' (random number between 0 and 1) or 'randn' (random number from unit std.dev. normal distribution) or the mathematical constants 'e' and 'pi'.""",
             "mandatory": True,
         },
     ),
@@ -91,7 +91,7 @@ input_fields = [
         {
             "argstr": "",
             "position": -1,
-            "help_string": """the output image.""",
+            "help": """the output image.""",
             "output_file_template": "mrcalc_output.mif",
         },
     ),
@@ -101,7 +101,7 @@ input_fields = [
         str,
         {
             "argstr": "-datatype",
-            "help_string": "specify output image data type.",
+            "help": "specify output image data type.",
             "allowed_values": [
                 "float16",
                 "float16",
@@ -152,7 +152,7 @@ input_fields = [
         bool,
         {
             "argstr": "-info",
-            "help_string": """display information messages.""",
+            "help": """display information messages.""",
         },
     ),
     (
@@ -160,7 +160,7 @@ input_fields = [
         bool,
         {
             "argstr": "-quiet",
-            "help_string": """do not display information messages or progress status; alternatively, this can be achieved by setting the MRTRIX_QUIET environment variable to a non-empty string.""",
+            "help": """do not display information messages or progress status; alternatively, this can be achieved by setting the MRTRIX_QUIET environment variable to a non-empty string.""",
         },
     ),
     (
@@ -168,7 +168,7 @@ input_fields = [
         bool,
         {
             "argstr": "-debug",
-            "help_string": """display debugging messages.""",
+            "help": """display debugging messages.""",
         },
     ),
     (
@@ -176,7 +176,7 @@ input_fields = [
         bool,
         {
             "argstr": "-force",
-            "help_string": """force overwrite of output files (caution: using the same file as input and output might cause unexpected behaviour).""",
+            "help": """force overwrite of output files (caution: using the same file as input and output might cause unexpected behaviour).""",
         },
     ),
     (
@@ -184,7 +184,7 @@ input_fields = [
         int,
         {
             "argstr": "-nthreads",
-            "help_string": """use this number of threads in multi-threaded applications (set to 0 to disable multi-threading).""",
+            "help": """use this number of threads in multi-threaded applications (set to 0 to disable multi-threading).""",
         },
     ),
     (
@@ -192,7 +192,7 @@ input_fields = [
         specs.MultiInputObj[ty.Tuple[str, str]],
         {
             "argstr": "-config",
-            "help_string": """temporarily set the value of an MRtrix config file entry.""",
+            "help": """temporarily set the value of an MRtrix config file entry.""",
         },
     ),
     (
@@ -200,7 +200,7 @@ input_fields = [
         bool,
         {
             "argstr": "-help",
-            "help_string": """display this information page and exit.""",
+            "help": """display this information page and exit.""",
         },
     ),
     (
@@ -208,7 +208,7 @@ input_fields = [
         bool,
         {
             "argstr": "-version",
-            "help_string": """display version information and exit.""",
+            "help": """display version information and exit.""",
         },
     ),
 ]
@@ -223,7 +223,7 @@ output_fields = [
         "output",
         ImageOut,
         {
-            "help_string": """the output image.""",
+            "help": """the output image.""",
         },
     ),
 ]
