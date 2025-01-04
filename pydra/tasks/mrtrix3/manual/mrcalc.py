@@ -3,7 +3,9 @@ from pathlib import Path  # noqa: F401
 from enum import Enum
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.medimage_mrtrix3 import ImageIn, ImageOut, Tracks  # noqa: F401
-from pydra.engine import specs, ShellCommandTask
+from pydra.engine import specs
+from pydra.design import shell
+from pydra.utils.typing import MultiInputObj
 
 
 class MrCalcOp(Enum):
@@ -71,173 +73,28 @@ def operations_formatter(
     )
 
 
-input_fields = [
-    # Arguments
-    (
-        "operations",
-        ty.List[ty.Tuple[ty.List[ty.Union[ImageIn, float]], MrCalcOp]],
-        {
-            "argstr": "",
-            "sep": " ",
-            "position": 0,
-            "formatter": operations_formatter,
-            "help": """an input image, intensity value, or the special keywords 'rand' (random number between 0 and 1) or 'randn' (random number from unit std.dev. normal distribution) or the mathematical constants 'e' and 'pi'.""",
-            "mandatory": True,
-        },
-    ),
-    (
-        "output",
-        Path,
-        {
-            "argstr": "",
-            "position": -1,
-            "help": """the output image.""",
-            "output_file_template": "mrcalc_output.mif",
-        },
-    ),
-    # Data type options Option Group
-    (
-        "datatype",
-        str,
-        {
-            "argstr": "-datatype",
-            "help": "specify output image data type.",
-            "allowed_values": [
-                "float16",
-                "float16",
-                "float16le",
-                "float16be",
-                "float32",
-                "float32le",
-                "float32be",
-                "float64",
-                "float64le",
-                "float64be",
-                "int64",
-                "uint64",
-                "int64le",
-                "uint64le",
-                "int64be",
-                "uint64be",
-                "int32",
-                "uint32",
-                "int32le",
-                "uint32le",
-                "int32be",
-                "uint32be",
-                "int16",
-                "uint16",
-                "int16le",
-                "uint16le",
-                "int16be",
-                "uint16be",
-                "cfloat16",
-                "cfloat16le",
-                "cfloat16be",
-                "cfloat32",
-                "cfloat32le",
-                "cfloat32be",
-                "cfloat64",
-                "cfloat64le",
-                "cfloat64be",
-                "int8",
-                "uint8",
-                "bit",
-            ],
-        },
-    ),
-    # Standard options
-    (
-        "info",
-        bool,
-        {
-            "argstr": "-info",
-            "help": """display information messages.""",
-        },
-    ),
-    (
-        "quiet",
-        bool,
-        {
-            "argstr": "-quiet",
-            "help": """do not display information messages or progress status; alternatively, this can be achieved by setting the MRTRIX_QUIET environment variable to a non-empty string.""",
-        },
-    ),
-    (
-        "debug",
-        bool,
-        {
-            "argstr": "-debug",
-            "help": """display debugging messages.""",
-        },
-    ),
-    (
-        "force",
-        bool,
-        {
-            "argstr": "-force",
-            "help": """force overwrite of output files (caution: using the same file as input and output might cause unexpected behaviour).""",
-        },
-    ),
-    (
-        "nthreads",
-        int,
-        {
-            "argstr": "-nthreads",
-            "help": """use this number of threads in multi-threaded applications (set to 0 to disable multi-threading).""",
-        },
-    ),
-    (
-        "config",
-        specs.MultiInputObj[ty.Tuple[str, str]],
-        {
-            "argstr": "-config",
-            "help": """temporarily set the value of an MRtrix config file entry.""",
-        },
-    ),
-    (
-        "help",
-        bool,
-        {
-            "argstr": "-help",
-            "help": """display this information page and exit.""",
-        },
-    ),
-    (
-        "version",
-        bool,
-        {
-            "argstr": "-version",
-            "help": """display version information and exit.""",
-        },
-    ),
-]
+class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
+    """This command will only compute per-voxel operations. Use 'mrmath' to compute
+    summary statistics across images or along image axes.
 
-MrCalcInputSpec = specs.SpecInfo(
-    name="mrcalc_input", fields=input_fields, bases=(specs.ShellSpec,)
-)
+        This command uses a stack-based syntax, with operators (specified using options)
+        operating on the top-most entries (i.e. images or values) in the stack. Operands
+        (values or images) are pushed onto the stack in the order they appear
+        (as arguments) on the command-line, and operators (specified as options)
+        operate on and consume the top-most entries in the stack, and push their
+        output as a new entry on the stack.
 
-
-output_fields = [
-    (
-        "output",
-        ImageOut,
-        {
-            "help": """the output image.""",
-        },
-    ),
-]
-MrCalcOutputSpec = specs.SpecInfo(
-    name="mrcalc_output", fields=output_fields, bases=(specs.ShellOutSpec,)
-)
-
-
-class MrCalc(ShellCommandTask):
-    """This command will only compute per-voxel operations. Use 'mrmath' to compute summary statistics across images or along image axes.
-
-        This command uses a stack-based syntax, with operators (specified using options) operating on the top-most entries (i.e. images or values) in the stack. Operands (values or images) are pushed onto the stack in the order they appear (as arguments) on the command-line, and operators (specified as options) operate on and consume the top-most entries in the stack, and push their output as a new entry on the stack.
-
-        As an additional feature, this command will allow images with different dimensions to be processed, provided they satisfy the following conditions: for each axis, the dimensions match if they are the same size, or one of them has size one. In the latter case, the entire image will be replicated along that axis. This allows for example a 4D image of size [ X Y Z N ] to be added to a 3D image of size [ X Y Z ], as if it consisted of N copies of the 3D image along the 4th axis (the missing dimension is assumed to have size 1). Another example would a single-voxel 4D image of size [ 1 1 1 N ], multiplied by a 3D image of size [ X Y Z ], which would allow the creation of a 4D image where each volume consists of the 3D image scaled by the corresponding value for that volume in the single-voxel image.
+        As an additional feature, this command will allow images with different
+        dimensions to be processed, provided they satisfy the following conditions:
+        for each axis, the dimensions match if they are the same size, or one of them
+        has size one. In the latter case, the entire image will be replicated along that
+        axis. This allows for example a 4D image of size [ X Y Z N ] to be added to a
+        3D image of size [ X Y Z ], as if it consisted of N copies of the 3D image along
+        the 4th axis (the missing dimension is assumed to have size 1). Another example
+        would a single-voxel 4D image of size [ 1 1 1 N ], multiplied by a 3D image of
+        size [ X Y Z ], which would allow the creation of a 4D image where each volume
+        consists of the 3D image scaled by the corresponding value for that volume in
+        the single-voxel image.
 
 
         Example usages
@@ -248,7 +105,8 @@ class MrCalc(ShellCommandTask):
 
             `$ mrcalc a.mif 2 -mult r.mif`
 
-            This performs the operation: r = 2*a  for every voxel a,r in images a.mif and r.mif respectively.
+            This performs the operation: r = 2*a  for every voxel a,r in images a.mif
+            and r.mif respectively.
 
 
         A more complex example:
@@ -269,13 +127,18 @@ class MrCalc(ShellCommandTask):
 
             `$ mrcalc ODF_CSF.mif 4 pi -mult -sqrt -div ODF_CSF_scaled.mif`
 
-            This applies the spherical harmonic basis scaling factor: 1.0/sqrt(4*pi), such that a single-tissue voxel containing the same intensities as the response function of that tissue should contain the value 1.0.
+            This applies the spherical harmonic basis scaling factor: 1.0/sqrt(4*pi),
+            such that a single-tissue voxel containing the same intensities as the
+            response function of that tissue should contain the value 1.0.
 
 
         References
         ----------
 
-            Tournier, J.-D.; Smith, R. E.; Raffelt, D.; Tabbara, R.; Dhollander, T.; Pietsch, M.; Christiaens, D.; Jeurissen, B.; Yeh, C.-H. & Connelly, A. MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation. NeuroImage, 2019, 202, 116137
+            Tournier, J.-D.; Smith, R. E.; Raffelt, D.; Tabbara, R.; Dhollander, T.;
+            Pietsch, M.; Christiaens, D.; Jeurissen, B.; Yeh, C.-H. & Connelly, A.
+            MRtrix3: A fast, flexible and open software framework for medical image
+            processing and visualisation. NeuroImage, 2019, 202, 116137
 
 
         MRtrix
@@ -304,5 +167,125 @@ class MrCalc(ShellCommandTask):
     Op = Operator = MrCalcOp
 
     executable = "mrcalc"
-    input_spec = MrCalcInputSpec
-    output_spec = MrCalcOutputSpec
+
+    operations: list[tuple[list[ImageIn | float], MrCalcOp]] = shell.arg(
+        argstr="",
+        sep=" ",
+        position=0,
+        formatter=operations_formatter,
+        help=(
+            "an input image, intensity value, or the special keywords 'rand' "
+            "(random number between 0 and 1) or 'randn' (random number from unit "
+            "std.dev. normal distribution) or the mathematical constants 'e' and "
+            "'pi'."
+        ),
+    )
+
+    # Data type options Option Group
+
+    datatype: str = shell.arg(
+        argstr="-datatype",
+        help="specify output image data type.",
+        allowed_values=[
+            "float16",
+            "float16",
+            "float16le",
+            "float16be",
+            "float32",
+            "float32le",
+            "float32be",
+            "float64",
+            "float64le",
+            "float64be",
+            "int64",
+            "uint64",
+            "int64le",
+            "uint64le",
+            "int64be",
+            "uint64be",
+            "int32",
+            "uint32",
+            "int32le",
+            "uint32le",
+            "int32be",
+            "uint32be",
+            "int16",
+            "uint16",
+            "int16le",
+            "uint16le",
+            "int16be",
+            "uint16be",
+            "cfloat16",
+            "cfloat16le",
+            "cfloat16be",
+            "cfloat32",
+            "cfloat32le",
+            "cfloat32be",
+            "cfloat64",
+            "cfloat64le",
+            "cfloat64be",
+            "int8",
+            "uint8",
+            "bit",
+        ],
+    )
+
+    # Standard options
+
+    info: bool = shell.arg(
+        argstr="-info",
+        help="""display information messages.""",
+    )
+
+    quiet: bool = shell.arg(
+        argstr="-quiet",
+        help=(
+            "do not display information messages or progress status; alternatively, "
+            "this can be achieved by setting the MRTRIX_QUIET environment variable to "
+            "a non-empty string."
+        ),
+    )
+
+    debug: bool = shell.arg(
+        argstr="-debug",
+        help="""display debugging messages.""",
+    )
+
+    force: bool = shell.arg(
+        argstr="-force",
+        help=(
+            "force overwrite of output files (caution: using the same file as input and "
+            "output might cause unexpected behaviour)."
+        ),
+    )
+
+    nthreads: int = shell.arg(
+        argstr="-nthreads",
+        help=(
+            "use this number of threads in multi-threaded applications (set to 0 to "
+            "disable multi-threading)."
+        ),
+    )
+
+    config: MultiInputObj[tuple[str, str]] = shell.arg(
+        argstr="-config",
+        help="""temporarily set the value of an MRtrix config file entry.""",
+    )
+
+    help: bool = shell.arg(
+        argstr="-help",
+        help="""display this information page and exit.""",
+    )
+
+    version: bool = shell.arg(
+        argstr="-version",
+        help="""display version information and exit.""",
+    )
+
+    class Outputs(specs.ShellOutputs):
+        output: ImageOut = shell.outarg(
+            argstr="",
+            position=-1,
+            help="""the output image.""",
+            path_template="mrcalc_output.mif",
+        )

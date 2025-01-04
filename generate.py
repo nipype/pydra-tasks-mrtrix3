@@ -7,6 +7,7 @@ import subprocess as sp
 import typing as ty
 from importlib import import_module
 import logging
+import tempfile
 from traceback import format_exc
 import re
 from tqdm import tqdm
@@ -15,9 +16,10 @@ import black.report
 import black.parsing
 from fileformats.core import FileSet
 from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, ImageOut, Tracks
-from pydra.engine.helpers import make_klass
-from pydra.engine import specs
+from pydra.design import shell
+from pydra.utils.typing import MultiInputObj
 from pydra.utils import add_exc_note
+from pydra.engine.helpers import list_fields
 
 
 logger = logging.getLogger("pydra-auto-gen")
@@ -176,7 +178,7 @@ def auto_gen_mrtrix3_pydra(
     manual_path = output_dir / "pydra" / "tasks" / "mrtrix3" / "manual"
     if manual_path.exists():
         for manual_file in manual_path.iterdir():
-            manual_cmd = manual_file.stem[:-1]
+            manual_cmd = manual_file.stem
             if not manual_cmd.startswith(".") and not manual_cmd.startswith("__"):
                 manual_cmds.append(manual_cmd)
 
@@ -205,9 +207,9 @@ def auto_gen_mrtrix3_pydra(
 
     # Write init
     init_path = output_dir / "pydra" / "tasks" / "mrtrix3" / pkg_version / "__init__.py"
-    imports = "\n".join(f"from .{c}_ import {pascal_case_task_name(c)}" for c in cmds)
+    imports = "\n".join(f"from .{c} import {pascal_case_task_name(c)}" for c in cmds)
     imports += "\n" + "\n".join(
-        f"from ..manual.{c}_ import {pascal_case_task_name(c)}" for c in manual_cmds
+        f"from ..manual.{c} import {pascal_case_task_name(c)}" for c in manual_cmds
     )
     init_path.write_text(f"# Auto-generated, do not edit\n\n{imports}\n")
 
@@ -267,20 +269,29 @@ def auto_gen_cmd(
         code_str = code_str.replace(f"{old_name}_output", f"{cmd_name}_output")
         code_str = re.sub(r"(?<!\w)5tt_in(?!\w)", "in_5tt", code_str)
     try:
-        code_str = black.format_file_contents(
-            code_str, fast=False, mode=black.FileMode()
-        )
-    except black.report.NothingChanged:
-        pass
-    except black.parsing.InvalidInput:
-        if log_errors:
-            logger.error("Could not parse generated interface for '%s'", cmd_name)
-            logger.error(format_exc())
-            return []
-        else:
-            raise
+        try:
+            code_str = black.format_file_contents(
+                code_str, fast=False, mode=black.FileMode()
+            )
+        except black.report.NothingChanged:
+            pass
+        except black.parsing.InvalidInput:
+            if log_errors:
+                logger.error(
+                    "Could not parse generated interface (%s) for '%s'", cmd_name
+                )
+                logger.error(format_exc())
+                return []
+            else:
+                raise
+    except Exception as e:
+        tfile = Path(tempfile.mkdtemp()) / (cmd_name + ".py")
+        tfile.write_text(code_str)
+        e.add_note(f"when formatting {cmd_name}")
+        e.add_note(f"generated file is {tfile}")
+        raise e
     output_path = (
-        output_dir / "pydra" / "tasks" / "mrtrix3" / pkg_version / (cmd_name + "_.py")
+        output_dir / "pydra" / "tasks" / "mrtrix3" / pkg_version / (cmd_name + ".py")
     )
     output_path.parent.mkdir(exist_ok=True, parents=True)
     with open(output_path, "w") as f:
@@ -301,9 +312,12 @@ def auto_gen_cmd(
 def auto_gen_test(cmd_name: str, output_dir: Path, log_errors: bool, pkg_version: str):
     tests_dir = output_dir / "pydra" / "tasks" / "mrtrix3" / pkg_version / "tests"
     tests_dir.mkdir(exist_ok=True)
-    module = import_module(f"pydra.tasks.mrtrix3.{pkg_version}.{cmd_name}_")
-    interface = getattr(module, pascal_case_task_name(cmd_name))
-    task = interface()
+    module = import_module(f"pydra.tasks.mrtrix3.{pkg_version}.{cmd_name}")
+    definition_klass = getattr(module, pascal_case_task_name(cmd_name))
+
+    input_fields = list_fields(definition_klass)
+    output_fields = list_fields(definition_klass.Outputs)
+    output_fields_dict = {f.name: f for f in output_fields}
 
     code_str = f"""# Auto-generated test for {cmd_name}
 
@@ -324,9 +338,8 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
 
     task = {pascal_case_task_name(cmd_name)}(
 """
-    input_fields = attrs.fields(type(task.inputs))
-    output_fields = attrs.fields(make_klass(task.output_spec))
 
+    field: shell.arg
     for field in input_fields:
         if field.name in (
             "executable",
@@ -355,12 +368,12 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
                 value = "True"
             elif type_ is Path:
                 try:
-                    output_field = getattr(output_fields, field.name)
+                    output_field = output_fields_dict[field.name]
                 except AttributeError:
                     pass
                 else:
                     output_type = output_field.type
-                    if ty.get_origin(output_type) is specs.MultiInputObj:
+                    if ty.get_origin(output_type) is MultiInputObj:
                         output_type = ty.get_args(output_type)[0]
                     if ty.get_origin(output_type) in (list, tuple):
                         output_type = ty.get_args(output_type)[0]
@@ -369,7 +382,7 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
                 value = f"{output_type.__name__}.sample()"
             elif ty.get_origin(type_) is ty.Union:
                 value = get_value(ty.get_args(type_)[0])
-            elif ty.get_origin(type_) is specs.MultiInputObj:
+            elif ty.get_origin(type_) is MultiInputObj:
                 value = "[" + get_value(ty.get_args(type_)[0]) + "]"
             elif ty.get_origin(type_) and issubclass(ty.get_origin(type_), ty.Sequence):
                 value = (
@@ -386,8 +399,8 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
 
         if field.default is not attrs.NOTHING:
             value = field.default
-        elif "allowed_values" in field.metadata:
-            value = repr(field.metadata["allowed_values"][0])
+        elif field.allowed_values:
+            value = repr(field.allowed_values[0])
         else:
             value = get_value(field.type)
 
