@@ -1,77 +1,47 @@
-from fileformats.core import converter
+import typing as ty
+from fileformats.core import converter, FileSet
 from fileformats.medimage.base import MedicalImage
-
 from fileformats.medimage_mrtrix3 import (
     ImageFormat as MrtrixImage,
     ImageHeader as MrtrixImageHeader,
     ImageFormatGz as MrtrixImageGz,
 )
 
-try:
-    from pydra.tasks.mrtrix3.v3_0 import MrConvert
-except ImportError:
-    from pydra.tasks.mrtrix3.latest import mrconvert as MrConvert
-
-    in_out_file_kwargs = {"in_file": "input", "out_file": "output"}
-else:
-    in_out_file_kwargs = {}
+from pydra.tasks.mrtrix3.v3_0 import MrConvert
 
 
-@converter(
-    source_format=MedicalImage,
-    target_format=MrtrixImageGz,
-    out_ext=MrtrixImageGz.ext,
-    **in_out_file_kwargs,
-)
-@converter(
-    source_format=MedicalImage,
-    target_format=MrtrixImageHeader,
-    out_ext=MrtrixImageHeader.ext,
-    **in_out_file_kwargs,
-)
-@converter(
-    source_format=MedicalImage,
-    target_format=MrtrixImage,
-    out_ext=MrtrixImage.ext,
-    **in_out_file_kwargs,
-)
-def mrconvert(name, out_ext: str, **kwargs):
-    """Initiate an MRConvert task with the output file extension set
+def out_file_template(fileformat: ty.Type[FileSet]) -> str:
+    """Return the output file name for a given file format
 
     Parameters
     ----------
-    name : str
-        name of the converter task
-    out_ext : str
-        extension of the output file, used by MRConvert to determine the desired format
+    fileformat : type
+        the file format class
 
     Returns
     -------
-    pydra.ShellCommandTask
-        the converter task
+    str
+        the output file name
     """
-    return MrConvert(name=name, out_file="out" + out_ext, **kwargs)
+    return "out" + fileformat.ext
 
 
-# @converter(
-#     source_format=MedicalImage,
-#     target_format=MrtrixImageHeader,
-#     out_ext=MrtrixImageHeader.ext,
-#     **in_out_file_kwargs,
-# )
-# def mrconvert2(name, out_ext: str, **kwargs):
-#     """Initiate an MRConvert task with the output file extension set
+# Register MrConvert as a converter for MrTrix formats
 
-#     Parameters
-#     ----------
-#     name : str
-#         name of the converter task
-#     out_ext : str
-#         extension of the output file, used by MRConvert to determine the desired format
+converter(
+    source_format=MedicalImage,
+    target_format=MrtrixImageGz,
+    out_file=out_file_template(MrtrixImageGz),
+)(MrConvert)
 
-#     Returns
-#     -------
-#     pydra.ShellCommandTask
-#         the converter task
-#     """
-#     return MrConvert(name=name, out_file="out" + out_ext, **kwargs)
+converter(
+    source_format=MedicalImage,
+    target_format=MrtrixImageHeader,
+    out_file=out_file_template(MrtrixImageHeader),
+)(MrConvert)
+
+converter(
+    source_format=MedicalImage,
+    target_format=MrtrixImage,
+    out_file=out_file_template(MrtrixImage),
+)(MrConvert)
