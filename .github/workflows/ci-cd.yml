@@ -319,7 +319,7 @@ jobs:
       id: latest_tag
       run: |
         git fetch --tags
-        echo "TAG=$(git tag -l | grep 'v.*' | tail -n 1 | awk -F post '{print $1}')" >> $GITHUB_OUTPUT
+        echo "TAG=$(git tag -l | grep 'v.*' | sort -V | tail -n 1 | awk -F post '{print $1}')" >> $GITHUB_OUTPUT
     - name: Overwrite the tag of release event with latest commit (i.e. including the auto directory)
       if: github.event_name == 'release'
       run: |
