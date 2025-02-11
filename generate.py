@@ -348,6 +348,7 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
             "quiet",
             "info",
             "nthreads",
+            "additional_args",
             "config",
             "args",
         ):
