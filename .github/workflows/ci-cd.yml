@@ -112,6 +112,8 @@ jobs:
           -e related-packages/fileformats
           -e related-packages/fileformats-extras
           -e .[dev,test]
+      - name: Install development Pydra
+        run: pip install --no-deps git+https://github.com/nipype/pydra.git@new-syntax
       - name: Generate task specifications
         run: >
           ./generate.py
