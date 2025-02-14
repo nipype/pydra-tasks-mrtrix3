@@ -34,14 +34,14 @@ else:
 
 
 ImageIn: TypeAlias = ty.Union[
+    DicomImage,
+    DicomDir,
     ImageFormat,
     ImageFormatGz,
     ImageHeader,
     ImageFormatB,
     ImageFormatGzB,
     ImageHeaderB,
-    DicomImage,
-    DicomDir,
     NiftiGzX,
     NiftiGz,
     NiftiX,
@@ -51,6 +51,10 @@ ImageIn: TypeAlias = ty.Union[
     NiftiGzB,
     NiftiGzXB,
     NiftiXB,
+    NiftiBvec,
+    NiftiGzBvec,
+    NiftiXBvec,
+    NiftiGzXBvec,
     Mgh,
     MghGz,
     Analyze,
