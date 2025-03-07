@@ -228,6 +228,7 @@ class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
             "uint8",
             "bit",
         ],
+        default=None,
     )
 
     # Standard options
@@ -235,6 +236,7 @@ class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
     info: bool = shell.arg(
         argstr="-info",
         help="""display information messages.""",
+        default=False,
     )
 
     quiet: bool = shell.arg(
@@ -244,11 +246,13 @@ class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
             "this can be achieved by setting the MRTRIX_QUIET environment variable to "
             "a non-empty string."
         ),
+        default=False,
     )
 
     debug: bool = shell.arg(
         argstr="-debug",
         help="""display debugging messages.""",
+        default=False,
     )
 
     force: bool = shell.arg(
@@ -257,6 +261,7 @@ class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
             "force overwrite of output files (caution: using the same file as input and "
             "output might cause unexpected behaviour)."
         ),
+        default=False,
     )
 
     nthreads: int = shell.arg(
@@ -265,6 +270,7 @@ class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
             "use this number of threads in multi-threaded applications (set to 0 to "
             "disable multi-threading)."
         ),
+        default=None,
     )
 
     config: MultiInputObj[tuple[str, str]] = shell.arg(
@@ -275,11 +281,13 @@ class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
     help: bool = shell.arg(
         argstr="-help",
         help="""display this information page and exit.""",
+        default=False,
     )
 
     version: bool = shell.arg(
         argstr="-version",
         help="""display version information and exit.""",
+        default=False,
     )
 
     class Outputs(specs.ShellOutputs):
