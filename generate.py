@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os
 import sys
-import attrs
 from pathlib import Path
 import subprocess as sp
 import typing as ty
@@ -17,6 +16,7 @@ import black.parsing
 from fileformats.core import FileSet
 from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, ImageOut, Tracks
 from pydra.design import shell
+from pydra.design.base import NO_DEFAULT
 from pydra.utils.typing import MultiInputObj
 from pydra.utils import add_exc_note
 from pydra.engine.helpers import list_fields
@@ -398,7 +398,7 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
                 raise NotImplementedError
             return value
 
-        if field.default is not attrs.NOTHING:
+        if field.default is not NO_DEFAULT:
             value = field.default
         elif field.allowed_values:
             value = repr(field.allowed_values[0])
