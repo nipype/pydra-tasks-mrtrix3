@@ -3,8 +3,7 @@ from pathlib import Path  # noqa: F401
 from enum import Enum
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.medimage_mrtrix3 import ImageIn, ImageOut, Tracks  # noqa: F401
-from pydra.engine import specs
-from pydra.design import shell
+from pydra.compose import shell
 from pydra.utils.typing import MultiInputObj
 
 
@@ -73,7 +72,7 @@ def operations_formatter(
     )
 
 
-class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
+class MrCalc(shell.Task["MrCalc.Outputs"]):
     """This command will only compute per-voxel operations. Use 'mrmath' to compute
     summary statistics across images or along image axes.
 
@@ -290,7 +289,7 @@ class MrCalc(specs.ShellDef["MrCalc.Outputs"]):
         default=False,
     )
 
-    class Outputs(specs.ShellOutputs):
+    class Outputs(shell.Outputs):
         output: ImageOut = shell.outarg(
             argstr="",
             position=-1,

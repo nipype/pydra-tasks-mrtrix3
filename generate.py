@@ -15,11 +15,11 @@ import black.report
 import black.parsing
 from fileformats.core import FileSet
 from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, ImageOut, Tracks
-from pydra.design import shell
-from pydra.design.base import NO_DEFAULT
+from pydra.compose import shell
+from pydra.compose.base import NO_DEFAULT
 from pydra.utils.typing import MultiInputObj
 from pydra.utils import add_exc_note
-from pydra.engine.helpers import list_fields
+from pydra.utils.general import list_fields
 
 
 logger = logging.getLogger("pydra-auto-gen")
@@ -330,7 +330,7 @@ from pydra.tasks.mrtrix3.{pkg_version} import {pascal_case_task_name(cmd_name)}
 
     if cmd_name in XFAIL:
         code_str += (
-            f"""@pytest.mark.xfail(reason="Task {cmd_name} is known not pass yet")"""
+            f"""@pytest.mark.xfail(reason="Job {cmd_name} is known not pass yet")"""
         )
 
     code_str += f"""
