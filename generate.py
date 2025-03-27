@@ -19,7 +19,7 @@ from pydra.compose import shell
 from pydra.compose.base import NO_DEFAULT
 from pydra.utils.typing import MultiInputObj
 from pydra.utils import add_exc_note
-from pydra.utils.general import list_fields
+from pydra.utils.general import task_fields
 
 
 logger = logging.getLogger("pydra-auto-gen")
@@ -315,8 +315,8 @@ def auto_gen_test(cmd_name: str, output_dir: Path, log_errors: bool, pkg_version
     module = import_module(f"pydra.tasks.mrtrix3.{pkg_version}.{cmd_name}")
     definition_klass = getattr(module, pascal_case_task_name(cmd_name))
 
-    input_fields = list_fields(definition_klass)
-    output_fields = list_fields(definition_klass.Outputs)
+    input_fields = task_fields(definition_klass)
+    output_fields = task_fields(definition_klass.Outputs)
     output_fields_dict = {f.name: f for f in output_fields}
 
     code_str = f"""# Auto-generated test for {cmd_name}
