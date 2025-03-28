@@ -18,8 +18,7 @@ from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, ImageOut, Tracks
 from pydra.compose import shell
 from pydra.compose.base import NO_DEFAULT
 from pydra.utils.typing import MultiInputObj
-from pydra.utils import add_exc_note
-from pydra.utils.general import task_fields
+from pydra.utils.general import task_fields, add_exc_note
 
 
 logger = logging.getLogger("pydra-auto-gen")
