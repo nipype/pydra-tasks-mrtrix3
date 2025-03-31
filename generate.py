@@ -397,7 +397,7 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
                 raise NotImplementedError
             return value
 
-        if field.default is not NO_DEFAULT:
+        if not field.mandatory:
             value = field.default
         elif field.allowed_values:
             value = repr(field.allowed_values[0])
