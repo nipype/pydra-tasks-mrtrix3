@@ -408,7 +408,7 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
 
     code_str += """
     )
-    result = task(plugin="serial")
+    result = task(worker="debug")
     assert not result.errored
 """
 
