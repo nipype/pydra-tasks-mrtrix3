@@ -62,7 +62,7 @@ class MrCalcOp(Enum):
 
 
 def operations_formatter(
-    operations: ty.List[ty.Tuple[ty.List[ty.Union[ImageIn, float]], MrCalcOp]]
+    operations: ty.List[ty.Tuple[ty.List[ty.Union[ImageIn, float]], MrCalcOp]],
 ):
     return " ".join(
         [
