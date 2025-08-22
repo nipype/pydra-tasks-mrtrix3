@@ -139,5 +139,3 @@ _version.py
 
 # Mac Garbage
 .DS_Store
-
-/pydra/tasks/mrtrix3/v3_0
