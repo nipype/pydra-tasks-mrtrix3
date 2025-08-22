@@ -130,14 +130,14 @@ jobs:
       - name: Rebase main on auto-gen
         run: |
           git checkout main
-          git checkout -b main-rebase
+          git checkout -b re-auto-gen
           git rebase old-auto-gen --onto auto-gen
       - name: Create pull request
         uses: peter-evans/create-pull-request@v4
         with:
-            branch: main-rebase
-            title: 'Rebase main on auto-gen'
-            body: 'This PR rebases the main branch on the auto-gen branch to include the latest Nipype to Pydra conversions.'
+            branch: re-auto-gen
+            title: 'Rebase of main on re-auto-generated tasks'
+            body: 'This PR rebases the main branch on the re-auto-gen branch to include newly regenerated Pydra tasks.'
             base: main
             commit-message: 'Rebase main on auto-gen'
             labels: auto-gen
