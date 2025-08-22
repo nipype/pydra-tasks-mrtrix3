@@ -20,7 +20,7 @@ on:
 env:
   MRTRIX_HOME: /opt/mrtrix3
   MRTRIX_INSTALL: /opt/mrtrix3/install
-  MRTRIX_VERSION: 3.1.0a0
+  MRTRIX_VERSION: 3.0.4
   SUBPKG_NAME: v3_1
 
 jobs:
