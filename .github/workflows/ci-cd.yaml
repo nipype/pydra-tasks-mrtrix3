@@ -221,26 +221,10 @@ jobs:
     - name: Strip auto package from gitignore so it is included in package
       run: |
         sed -i '/\/pydra\/tasks\/mrtrix3\/${{ env.SUBPKG_NAME }}/d' .gitignore
-    - name: Add auto-generated directory to git repo
-      if: github.event_name == 'release' || github.event_name == 'repository_dispatch'
-      run: |
-        git add pydra/tasks/mrtrix3/$SUBPKG_NAME
-        git commit -am"added auto-generated version to make new tag for package version"
-        git status
-    - name: Get latest version tag
-      id: latest_tag
-      run: |
-        git fetch --tags
-        echo "TAG=$(git tag -l | grep 'v.*' | sort -V | tail -n 1 | awk -F post '{print $1}')" >> $GITHUB_OUTPUT
-    - name: Overwrite the tag of release event with latest commit (i.e. including the auto directory)
-      if: github.event_name == 'release'
-      run: |
-        git tag -d ${{ steps.latest_tag.outputs.TAG }};
-        git tag -a ${{ steps.latest_tag.outputs.TAG }} -m"Tag used to create a pydra-tasks-mrtrix3 release";
-    - name: Set up Python 3.11
+    - name: Set up Python 3
       uses: actions/setup-python@v3
       with:
-        python-version: 3.11
+        python-version: 3.x
     - name: Install build tools
       run: python -m pip install --upgrade pip twine build
     - name: Build source and wheel distributions
