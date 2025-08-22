@@ -58,13 +58,13 @@ class MrEdit(shell.Task["MrEdit.Outputs"]):
         help="""fill one or more planes on a particular image axis""",
         sep=" ",
     )
-    sphere: MultiInputObj[tuple[list[float], list[float], list[float]]] | None = (
-        shell.arg(
-            default=None,
-            argstr="-sphere",
-            help="""draw a sphere with radius in mm""",
-            sep=" ",
-        )
+    sphere: MultiInputObj[
+        tuple[list[float], list[float], list[float]]
+    ] | None = shell.arg(
+        default=None,
+        argstr="-sphere",
+        help="""draw a sphere with radius in mm""",
+        sep=" ",
     )
     voxel: MultiInputObj[tuple[list[float], list[float]]] | None = shell.arg(
         default=None,

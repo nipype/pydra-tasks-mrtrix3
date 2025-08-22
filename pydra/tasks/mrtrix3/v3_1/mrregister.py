@@ -427,17 +427,17 @@ class MrRegister(shell.Task["MrRegister.Outputs"]):
             path_template="transformed.mif",
             help="""image1 after registration transformed and regridded to the space of image2. Note that -transformed needs to be repeated for each contrast if multi-contrast registration is used.""",
         )
-        transformed_midway: MultiInputObj[tuple[ImageOut, ImageOut]] | bool | None = (
-            shell.outarg(
-                default=None,
-                argstr="-transformed_midway",
-                path_template=(
-                    "transformed_midway0.mif",
-                    "transformed_midway1.mif",
-                ),
-                help="""image1 and image2 after registration transformed and regridded to the midway space. Note that -transformed_midway needs to be repeated for each contrast if multi-contrast registration is used.""",
-                sep=" ",
-            )
+        transformed_midway: MultiInputObj[
+            tuple[ImageOut, ImageOut]
+        ] | bool | None = shell.outarg(
+            default=None,
+            argstr="-transformed_midway",
+            path_template=(
+                "transformed_midway0.mif",
+                "transformed_midway1.mif",
+            ),
+            help="""image1 and image2 after registration transformed and regridded to the midway space. Note that -transformed_midway needs to be repeated for each contrast if multi-contrast registration is used.""",
+            sep=" ",
         )
         rigid: File | bool | None = shell.outarg(
             default=None,

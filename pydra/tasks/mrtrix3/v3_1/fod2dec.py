@@ -51,7 +51,7 @@ class Fod2Dec(shell.Task["Fod2Dec.Outputs"]):
     contrast: ImageIn | None = shell.arg(
         default=None,
         argstr="-contrast",
-        help="""Weight the computed DEC map by the provided image contrast. If the contrast has a different image grid, the DEC map is first resliced and renormalised. To achieve panchromatic sharpening, provide an image with a higher spatial resolution than the input FOD image; e.g., a T1 anatomical volume. Only the DEC is subject to the mask, so as to allow for partial colouring of the contrast image. 
+        help="""Weight the computed DEC map by the provided image contrast. If the contrast has a different image grid, the DEC map is first resliced and renormalised. To achieve panchromatic sharpening, provide an image with a higher spatial resolution than the input FOD image; e.g., a T1 anatomical volume. Only the DEC is subject to the mask, so as to allow for partial colouring of the contrast image.
 Default when this option is *not* provided: integral of input FOD, subject to the same mask/threshold as used for DEC computation.""",
     )
     lum: bool = shell.arg(

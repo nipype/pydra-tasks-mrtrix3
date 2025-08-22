@@ -83,8 +83,8 @@ class DwiDenoise(shell.Task["DwiDenoise.Outputs"]):
     estimator: str | None = shell.arg(
         default=None,
         argstr="-estimator",
-        help="""Select the noise level estimator (default = Exp2), either: 
-* Exp1: the original estimator used in Veraart et al. (2016), or 
+        help="""Select the noise level estimator (default = Exp2), either:
+* Exp1: the original estimator used in Veraart et al. (2016), or
 * Exp2: the improved estimator introduced in Cordero-Grande et al. (2019).""",
         allowed_values=["exp1", "exp2"],
     )
