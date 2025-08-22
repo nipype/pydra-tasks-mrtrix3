@@ -33,12 +33,6 @@ First install the package in editable mode
 
    $ pip install -e .[test]
 
-Then generate the automic interfaces using
-
-.. code-block::
-
-   $ python3 generate.py
-
 This package comes with a battery of automatically generated test modules. They can be launched using
 
 .. code-block::
