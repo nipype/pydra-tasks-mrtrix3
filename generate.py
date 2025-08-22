@@ -234,7 +234,7 @@ def auto_gen_cmd(
     base_cmd = str(cmd_dir / cmd[0])
     cmd = [base_cmd] + cmd[1:]
     try:
-        code_str = sp.check_output(cmd + ["__print_usage_pydra__"]).decode("utf-8")
+        code_str = sp.check_output(cmd + ["__print_pydra_code__"]).decode("utf-8")
     except sp.CalledProcessError:
         if log_errors:
             logger.error("Could not generate interface for '%s'", cmd_name)
