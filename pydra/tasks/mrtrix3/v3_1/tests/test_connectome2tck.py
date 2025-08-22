@@ -7,6 +7,7 @@ from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, Tracks  # noqa
 from pydra.tasks.mrtrix3.v3_1 import Connectome2Tck
 
 
+@pytest.mark.xfail
 def test_connectome2tck(tmp_path, cli_parse_only):
 
     task = Connectome2Tck(

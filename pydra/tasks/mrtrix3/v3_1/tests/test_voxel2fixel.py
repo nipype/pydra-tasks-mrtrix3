@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import Voxel2Fixel
 
 
 @pytest.mark.xfail(reason="Job voxel2fixel is known not pass yet")
+@pytest.mark.xfail
 def test_voxel2fixel(tmp_path, cli_parse_only):
 
     task = Voxel2Fixel(

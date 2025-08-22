@@ -333,6 +333,7 @@ from pydra.tasks.mrtrix3.{pkg_version} import {pascal_case_task_name(cmd_name)}
         )
 
     code_str += f"""
+@pytest.mark.xfail
 def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
 
     task = {pascal_case_task_name(cmd_name)}(

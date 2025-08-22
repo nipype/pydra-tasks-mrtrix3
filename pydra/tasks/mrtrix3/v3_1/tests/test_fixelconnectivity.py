@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FixelConnectivity
 
 
 @pytest.mark.xfail(reason="Job fixelconnectivity is known not pass yet")
+@pytest.mark.xfail
 def test_fixelconnectivity(tmp_path, cli_parse_only):
 
     task = FixelConnectivity(

@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DirSplit
 
 
 @pytest.mark.xfail(reason="Job dirsplit is known not pass yet")
+@pytest.mark.xfail
 def test_dirsplit(tmp_path, cli_parse_only):
 
     task = DirSplit(

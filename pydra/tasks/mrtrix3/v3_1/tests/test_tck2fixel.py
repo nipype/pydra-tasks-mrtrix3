@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import Tck2Fixel
 
 
 @pytest.mark.xfail(reason="Job tck2fixel is known not pass yet")
+@pytest.mark.xfail
 def test_tck2fixel(tmp_path, cli_parse_only):
 
     task = Tck2Fixel(

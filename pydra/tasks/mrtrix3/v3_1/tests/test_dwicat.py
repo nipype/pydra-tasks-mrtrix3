@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DwiCat
 
 
 @pytest.mark.xfail(reason="Job dwicat is known not pass yet")
+@pytest.mark.xfail
 def test_dwicat(tmp_path, cli_parse_only):
 
     task = DwiCat(

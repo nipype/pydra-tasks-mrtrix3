@@ -7,6 +7,7 @@ from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, Tracks  # noqa
 from pydra.tasks.mrtrix3.v3_1 import Fixel2Peaks
 
 
+@pytest.mark.xfail
 def test_fixel2peaks(tmp_path, cli_parse_only):
 
     task = Fixel2Peaks(

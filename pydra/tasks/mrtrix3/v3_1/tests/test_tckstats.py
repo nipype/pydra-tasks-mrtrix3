@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import TckStats
 
 
 @pytest.mark.xfail(reason="Job tckstats is known not pass yet")
+@pytest.mark.xfail
 def test_tckstats(tmp_path, cli_parse_only):
 
     task = TckStats(

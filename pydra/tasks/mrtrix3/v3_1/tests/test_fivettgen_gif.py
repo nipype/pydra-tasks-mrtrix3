@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FivettGen_Gif
 
 
 @pytest.mark.xfail(reason="Job fivettgen_gif is known not pass yet")
+@pytest.mark.xfail
 def test_fivettgen_gif(tmp_path, cli_parse_only):
 
     task = FivettGen_Gif(

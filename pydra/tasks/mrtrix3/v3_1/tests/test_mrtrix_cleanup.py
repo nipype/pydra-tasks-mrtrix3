@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import MrTrix_Cleanup
 
 
 @pytest.mark.xfail(reason="Job mrtrix_cleanup is known not pass yet")
+@pytest.mark.xfail
 def test_mrtrix_cleanup(tmp_path, cli_parse_only):
 
     task = MrTrix_Cleanup(

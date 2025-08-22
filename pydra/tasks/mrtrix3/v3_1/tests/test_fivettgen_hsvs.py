@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FivettGen_Hsvs
 
 
 @pytest.mark.xfail(reason="Job fivettgen_hsvs is known not pass yet")
+@pytest.mark.xfail
 def test_fivettgen_hsvs(tmp_path, cli_parse_only):
 
     task = FivettGen_Hsvs(

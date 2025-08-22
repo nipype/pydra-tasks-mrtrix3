@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FixelConvert
 
 
 @pytest.mark.xfail(reason="Job fixelconvert is known not pass yet")
+@pytest.mark.xfail
 def test_fixelconvert(tmp_path, cli_parse_only):
 
     task = FixelConvert(

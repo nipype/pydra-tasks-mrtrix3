@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import MrConvert
 
 
 @pytest.mark.xfail(reason="Job mrconvert is known not pass yet")
+@pytest.mark.xfail
 def test_mrconvert(tmp_path, cli_parse_only):
 
     task = MrConvert(

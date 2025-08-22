@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import Dwi2Mask_Consensus
 
 
 @pytest.mark.xfail(reason="Job dwi2mask_consensus is known not pass yet")
+@pytest.mark.xfail
 def test_dwi2mask_consensus(tmp_path, cli_parse_only):
 
     task = Dwi2Mask_Consensus(

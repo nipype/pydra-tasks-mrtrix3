@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FixelCrop
 
 
 @pytest.mark.xfail(reason="Job fixelcrop is known not pass yet")
+@pytest.mark.xfail
 def test_fixelcrop(tmp_path, cli_parse_only):
 
     task = FixelCrop(

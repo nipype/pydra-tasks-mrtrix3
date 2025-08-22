@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import WarpInvert
 
 
 @pytest.mark.xfail(reason="Job warpinvert is known not pass yet")
+@pytest.mark.xfail
 def test_warpinvert(tmp_path, cli_parse_only):
 
     task = WarpInvert(

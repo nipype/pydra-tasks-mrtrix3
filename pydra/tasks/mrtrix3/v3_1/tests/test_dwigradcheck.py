@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DwiGradcheck
 
 
 @pytest.mark.xfail(reason="Job dwigradcheck is known not pass yet")
+@pytest.mark.xfail
 def test_dwigradcheck(tmp_path, cli_parse_only):
 
     task = DwiGradcheck(

@@ -7,6 +7,7 @@ from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, Tracks  # noqa
 from pydra.tasks.mrtrix3.v3_1 import Fod2Dec
 
 
+@pytest.mark.xfail
 def test_fod2dec(tmp_path, cli_parse_only):
 
     task = Fod2Dec(

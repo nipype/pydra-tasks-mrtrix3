@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DwiBiascorrect_Mtnorm
 
 
 @pytest.mark.xfail(reason="Job dwibiascorrect_mtnorm is known not pass yet")
+@pytest.mark.xfail
 def test_dwibiascorrect_mtnorm(tmp_path, cli_parse_only):
 
     task = DwiBiascorrect_Mtnorm(

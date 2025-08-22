@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import MrStats
 
 
 @pytest.mark.xfail(reason="Job mrstats is known not pass yet")
+@pytest.mark.xfail
 def test_mrstats(tmp_path, cli_parse_only):
 
     task = MrStats(

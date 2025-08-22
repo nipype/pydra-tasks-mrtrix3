@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import ResponseMean
 
 
 @pytest.mark.xfail(reason="Job responsemean is known not pass yet")
+@pytest.mark.xfail
 def test_responsemean(tmp_path, cli_parse_only):
 
     task = ResponseMean(

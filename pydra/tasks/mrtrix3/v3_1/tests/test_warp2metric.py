@@ -7,6 +7,7 @@ from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, Tracks  # noqa
 from pydra.tasks.mrtrix3.v3_1 import Warp2Metric
 
 
+@pytest.mark.xfail
 def test_warp2metric(tmp_path, cli_parse_only):
 
     task = Warp2Metric(

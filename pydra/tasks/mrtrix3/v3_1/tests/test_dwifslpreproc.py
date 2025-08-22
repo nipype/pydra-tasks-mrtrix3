@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DwiFslpreproc
 
 
 @pytest.mark.xfail(reason="Job dwifslpreproc is known not pass yet")
+@pytest.mark.xfail
 def test_dwifslpreproc(tmp_path, cli_parse_only):
 
     task = DwiFslpreproc(

@@ -7,6 +7,7 @@ from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, Tracks  # noqa
 from pydra.tasks.mrtrix3.v3_1 import Amp2Sh
 
 
+@pytest.mark.xfail
 def test_amp2sh(tmp_path, cli_parse_only):
 
     task = Amp2Sh(

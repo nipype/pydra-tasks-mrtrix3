@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DwiShellmath
 
 
 @pytest.mark.xfail(reason="Job dwishellmath is known not pass yet")
+@pytest.mark.xfail
 def test_dwishellmath(tmp_path, cli_parse_only):
 
     task = DwiShellmath(

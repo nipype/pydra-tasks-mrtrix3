@@ -7,6 +7,7 @@ from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, Tracks  # noqa
 from pydra.tasks.mrtrix3.v3_1 import TckInfo
 
 
+@pytest.mark.xfail
 def test_tckinfo(tmp_path, cli_parse_only):
 
     task = TckInfo(

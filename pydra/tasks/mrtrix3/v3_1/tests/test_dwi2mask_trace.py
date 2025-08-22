@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import Dwi2Mask_Trace
 
 
 @pytest.mark.xfail(reason="Job dwi2mask_trace is known not pass yet")
+@pytest.mark.xfail
 def test_dwi2mask_trace(tmp_path, cli_parse_only):
 
     task = Dwi2Mask_Trace(

@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DwiBiascorrect_Ants
 
 
 @pytest.mark.xfail(reason="Job dwibiascorrect_ants is known not pass yet")
+@pytest.mark.xfail
 def test_dwibiascorrect_ants(tmp_path, cli_parse_only):
 
     task = DwiBiascorrect_Ants(

@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FixelReorient
 
 
 @pytest.mark.xfail(reason="Job fixelreorient is known not pass yet")
+@pytest.mark.xfail
 def test_fixelreorient(tmp_path, cli_parse_only):
 
     task = FixelReorient(

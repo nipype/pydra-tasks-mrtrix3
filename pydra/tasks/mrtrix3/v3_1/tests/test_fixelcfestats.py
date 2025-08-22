@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FixelCfestats
 
 
 @pytest.mark.xfail(reason="Job fixelcfestats is known not pass yet")
+@pytest.mark.xfail
 def test_fixelcfestats(tmp_path, cli_parse_only):
 
     task = FixelCfestats(

@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import TsfMult
 
 
 @pytest.mark.xfail(reason="Job tsfmult is known not pass yet")
+@pytest.mark.xfail
 def test_tsfmult(tmp_path, cli_parse_only):
 
     task = TsfMult(

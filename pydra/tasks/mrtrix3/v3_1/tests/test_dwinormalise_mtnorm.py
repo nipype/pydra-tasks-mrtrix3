@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DwiNormalise_Mtnorm
 
 
 @pytest.mark.xfail(reason="Job dwinormalise_mtnorm is known not pass yet")
+@pytest.mark.xfail
 def test_dwinormalise_mtnorm(tmp_path, cli_parse_only):
 
     task = DwiNormalise_Mtnorm(

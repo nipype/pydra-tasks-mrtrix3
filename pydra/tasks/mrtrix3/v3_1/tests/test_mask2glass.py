@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import Mask2Glass
 
 
 @pytest.mark.xfail(reason="Job mask2glass is known not pass yet")
+@pytest.mark.xfail
 def test_mask2glass(tmp_path, cli_parse_only):
 
     task = Mask2Glass(

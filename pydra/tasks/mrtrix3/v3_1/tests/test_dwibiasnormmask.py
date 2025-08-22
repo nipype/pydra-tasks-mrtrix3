@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import DwiBiasnormmask
 
 
 @pytest.mark.xfail(reason="Job dwibiasnormmask is known not pass yet")
+@pytest.mark.xfail
 def test_dwibiasnormmask(tmp_path, cli_parse_only):
 
     task = DwiBiasnormmask(

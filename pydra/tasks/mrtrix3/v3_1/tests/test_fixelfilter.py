@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FixelFilter
 
 
 @pytest.mark.xfail(reason="Job fixelfilter is known not pass yet")
+@pytest.mark.xfail
 def test_fixelfilter(tmp_path, cli_parse_only):
 
     task = FixelFilter(

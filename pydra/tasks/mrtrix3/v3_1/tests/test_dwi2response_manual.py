@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import Dwi2Response_Manual
 
 
 @pytest.mark.xfail(reason="Job dwi2response_manual is known not pass yet")
+@pytest.mark.xfail
 def test_dwi2response_manual(tmp_path, cli_parse_only):
 
     task = Dwi2Response_Manual(

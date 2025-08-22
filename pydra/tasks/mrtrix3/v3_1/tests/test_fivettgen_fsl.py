@@ -8,6 +8,7 @@ from pydra.tasks.mrtrix3.v3_1 import FivettGen_Fsl
 
 
 @pytest.mark.xfail(reason="Job fivettgen_fsl is known not pass yet")
+@pytest.mark.xfail
 def test_fivettgen_fsl(tmp_path, cli_parse_only):
 
     task = FivettGen_Fsl(
