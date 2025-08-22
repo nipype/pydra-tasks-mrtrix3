@@ -52,6 +52,19 @@ jobs:
         cmakeVersion: '3.16.3'
     - name: Print CMake version
       run: cmake --version
+
+    - name: Create MRtrix install directory
+      run: |
+        sudo mkdir -p ${{ env.MRTRIX_INSTALL }}
+        sudo chown $USER ${{ env.MRTRIX_INSTALL }}
+
+    - name: Cache MRtrix Install
+      id: cache-install
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.MRTRIX_INSTALL }}
+        key: mrtrix-${{ env.MRTRIX_VERSION }}-${{ runner.os }}
+
     - name: Clone latest MRtrix and switch to latest tag
       run: |
         mkdir $MRTRIX_HOME
@@ -205,11 +218,6 @@ jobs:
       # checkout@v2 adds a header that makes branch protection report errors
       # because the Github action bot is not a collaborator on the repo
       run: git config --local --unset http.https://github.com/.extraheader
-    - name: Download auto-gen pydra
-      uses: actions/download-artifact@v4
-      with:
-        name: AutoGen
-        path: pydra/tasks/mrtrix3/${{ env.SUBPKG_NAME }}
     - name: Strip auto package from gitignore so it is included in package
       run: |
         sed -i '/\/pydra\/tasks\/mrtrix3\/${{ env.SUBPKG_NAME }}/d' .gitignore

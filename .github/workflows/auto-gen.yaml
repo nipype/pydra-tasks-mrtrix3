@@ -63,6 +63,16 @@ jobs:
           cmakeVersion: '3.16.3'
       - name: Print CMake version
         run: cmake --version
+      - name: Create MRtrix install directory
+        run: |
+            sudo mkdir -p ${{ env.MRTRIX_INSTALL }}
+            sudo chown $USER ${{ env.MRTRIX_INSTALL }}
+      - name: Cache MRtrix Install
+        id: cache-install
+        uses: actions/cache@v4
+        with:
+            path: ${{ env.MRTRIX_INSTALL }}
+            key: mrtrix-${{ env.MRTRIX_VERSION }}-${{ runner.os }}
       - name: Clone latest MRtrix and switch to latest tag
         run: |
           mkdir $MRTRIX_HOME
