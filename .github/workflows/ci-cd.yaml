@@ -34,6 +34,12 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
+    - name: Set Git User
+      # checkout@v2 adds a header that makes branch protection report errors
+      # because the Github action bot is not a collaborator on the repo
+      run: |
+        git config --global user.email "auto@github-actions"
+        git config --global user.name "GitHub Actions Runner"
     - name: Install dependencies
       run: |
           sudo apt-get update
