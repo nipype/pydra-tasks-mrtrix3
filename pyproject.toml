@@ -7,7 +7,11 @@ name = "pydra-tasks-mrtrix3"
 description = "pydra-tasks-mrtrix3 contains Pydra task specifications for MRtrix3 tools"
 readme = "README.rst"
 requires-python = ">=3.11"
-dependencies = ["fileformats-medimage_mrtrix3 >=3.0.4a5", "numpy", "pydra"]
+dependencies = [
+    "fileformats-medimage_mrtrix3 >=3.0.4a5",
+    "numpy",
+    "pydra>=1.0a2"
+]
 license = { file = "LICENSE" }
 authors = [{ name = "Thomas G. Close", email = "tom.g.close@gmail.com" }]
 maintainers = [{ name = "Thomas G. Close", email = "tom.g.close@gmail.com" }]
