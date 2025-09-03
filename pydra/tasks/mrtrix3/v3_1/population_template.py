@@ -250,7 +250,7 @@ class PopulationTemplate(shell.Task["PopulationTemplate.Outputs"]):
         argstr="-nthreads",
         default=None,
     )
-    config: MultiInputObj[MultiInputObj] = shell.arg(
+    config: MultiInputObj[MultiInputObj] | None = shell.arg(
         help="temporarily set the value of an MRtrix config file entry.",
         argstr="-config",
         default=None,
