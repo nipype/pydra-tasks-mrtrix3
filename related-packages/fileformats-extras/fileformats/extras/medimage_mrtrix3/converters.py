@@ -7,7 +7,7 @@ from fileformats.medimage_mrtrix3 import (
     ImageFormatGz as MrtrixImageGz,
 )
 
-from pydra.tasks.mrtrix3.v3_0 import MrConvert
+from pydra.tasks.mrtrix3.v3_1 import MrConvert
 
 
 def out_file_template(fileformat: ty.Type[FileSet]) -> str:
