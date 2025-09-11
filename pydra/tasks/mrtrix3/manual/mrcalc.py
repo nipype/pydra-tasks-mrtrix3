@@ -62,7 +62,7 @@ class MrCalcOp(Enum):
 
 
 def operations_formatter(
-    operations: ty.List[ty.Tuple[ty.List[ty.Union[ImageIn, float]], MrCalcOp]]
+    operations: ty.List[ty.Tuple[ty.List[ty.Union[ImageIn, float]], MrCalcOp]],
 ):
     return " ".join(
         [
@@ -272,7 +272,7 @@ class MrCalc(shell.Task["MrCalc.Outputs"]):
         default=None,
     )
 
-    config: MultiInputObj[tuple[str, str]] = shell.arg(
+    config: MultiInputObj[tuple[str, str]] | None = shell.arg(
         argstr="-config",
         help="""temporarily set the value of an MRtrix config file entry.""",
     )
