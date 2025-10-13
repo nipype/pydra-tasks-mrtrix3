@@ -14,7 +14,7 @@ import click
 import black.report
 import black.parsing
 from fileformats.core import FileSet
-from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, ImageOut, Tracks
+from fileformats.vendor.mrtrix3.medimage import ImageFormat, ImageIn, ImageOut, Tracks
 from pydra.compose import shell
 from pydra.compose.base import NO_DEFAULT
 from pydra.utils.typing import MultiInputObj
@@ -323,7 +323,7 @@ def auto_gen_test(cmd_name: str, output_dir: Path, log_errors: bool, pkg_version
 import pytest
 from fileformats.generic import File, Directory, FsObject  # noqa
 from fileformats.medimage import Nifti1  # noqa
-from fileformats.medimage_mrtrix3 import ImageFormat, ImageIn, Tracks  # noqa
+from fileformats.vendor.mrtrix3.medimage import ImageFormat, ImageIn, Tracks  # noqa
 from pydra.tasks.mrtrix3.{pkg_version} import {pascal_case_task_name(cmd_name)}
 """
 

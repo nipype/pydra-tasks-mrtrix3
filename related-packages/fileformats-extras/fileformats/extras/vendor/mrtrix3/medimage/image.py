@@ -8,7 +8,7 @@ import numpy.typing
 from medimages4tests.dummy.nifti import get_image as get_dummy_nifti
 from fileformats.core import FileSet, SampleFileGenerator, extra_implementation
 from fileformats.medimage import MedicalImage, Nifti1
-from fileformats.medimage_mrtrix3 import ImageFormat
+from fileformats.vendor.mrtrix3.medimage import ImageFormat
 
 # if sys.version_info >= (3, 9):
 #     from typing import TypeAlias

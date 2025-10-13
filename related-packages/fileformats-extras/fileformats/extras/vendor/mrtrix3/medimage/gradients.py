@@ -3,7 +3,7 @@ import numpy.typing
 from fileformats.core import extra_implementation
 from fileformats.medimage import DwiEncoding
 from fileformats.medimage.diffusion import EncodingArrayType
-from fileformats.medimage_mrtrix3 import BFile
+from fileformats.vendor.mrtrix3.medimage import BFile
 
 
 @extra_implementation(DwiEncoding.read_array)

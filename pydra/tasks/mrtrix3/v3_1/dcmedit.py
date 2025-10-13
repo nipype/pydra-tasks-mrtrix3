@@ -3,7 +3,7 @@
 import typing as ty
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
-from fileformats.medimage_mrtrix3 import ImageIn, ImageOut, Tracks  # noqa: F401
+from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
 from pydra.compose import shell
 from pydra.utils.typing import MultiInputObj
 
