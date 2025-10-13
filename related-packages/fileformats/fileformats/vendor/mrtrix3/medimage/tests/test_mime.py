@@ -1,5 +1,5 @@
 from fileformats.core import from_mime
-from fileformats.medimage_mrtrix3 import ImageFormatGz as MifGz
+from fileformats.vendor.mrtrix3.medimage import ImageFormatGz as MifGz
 
 
 def test_mif_gz_mime_roundtrip():

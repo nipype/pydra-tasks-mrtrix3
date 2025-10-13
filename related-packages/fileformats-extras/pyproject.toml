@@ -3,14 +3,14 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "fileformats-medimage-mrtrix3-extras"
+name = "fileformats-vendor-mrtrix3-extras"
 description = "Classes for representing different file formats in Python classes for use in type hinting in data workflows"
 readme = "README.rst"
 requires-python = ">=3.8"
 dependencies = [
     "fileformats >=0.15a3",
     "fileformats-medimage >=0.10.0a",
-    "fileformats-medimage-mrtrix3 >=3.0.4a5",
+    "fileformats-vendor-mrtrix3 >=3.0.4a5",
     "medimages4tests",
     "pydra >= 0.23.0",
 ]
@@ -48,14 +48,14 @@ source = "vcs"
 raw-options = { root = "../.." }
 
 [tool.hatch.build.hooks.vcs]
-version-file = "fileformats/extras/medimage_mrtrix3/_version.py"
+version-file = "fileformats/extras/vendor/mrtrix3/_version.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["fileformats"]
 
 [tool.black]
 target-version = ['py38']
-exclude = "fileformats/extras/medimage_mrtrix3/_version.py"
+exclude = "fileformats/extras/vendor/mrtrix3/_version.py"
 
 [tool.codespell]
 ignore-words = ".codespell-ignorewords"

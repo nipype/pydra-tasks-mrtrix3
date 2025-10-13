@@ -6,5 +6,5 @@ fileformats >= 0.8
 fileformats-extras >= 0.2.1
 fileformats-medimage >= 0.4.4
 fileformats-medimage-extras >= 0.1.5
-fileformats-medimage-mrtrix3
-fileformats-medimage-mrtrix3-extras
+fileformats-vendor-mrtrix3
+fileformats-vendor-mrtrix3-extras

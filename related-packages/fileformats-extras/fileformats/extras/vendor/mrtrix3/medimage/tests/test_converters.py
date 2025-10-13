@@ -1,5 +1,5 @@
 from fileformats.medimage import NiftiBvec
-from fileformats.medimage_mrtrix3 import ImageFormat, ImageHeader, ImageFormatGz
+from fileformats.vendor.mrtrix3.medimage import ImageFormat, ImageHeader, ImageFormatGz
 
 
 # @pytest.mark.xfail(reason="not sure what the reason is at this stage, might be bug in Pydra")

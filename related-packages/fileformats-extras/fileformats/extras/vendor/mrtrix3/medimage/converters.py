@@ -1,7 +1,7 @@
 import typing as ty
 from fileformats.core import converter, FileSet
 from fileformats.medimage.base import MedicalImage
-from fileformats.medimage_mrtrix3 import (
+from fileformats.vendor.mrtrix3.medimage import (
     ImageFormat as MrtrixImage,
     ImageHeader as MrtrixImageHeader,
     ImageFormatGz as MrtrixImageGz,
