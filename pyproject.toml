@@ -8,7 +8,7 @@ description = "pydra-tasks-mrtrix3 contains Pydra task specifications for MRtrix
 readme = "README.rst"
 requires-python = ">=3.11"
 dependencies = [
-    "fileformats-medimage_mrtrix3 >=3.0.4a5",
+    "fileformats-vendor-mrtrix3 >=3.0.4a5",
     "numpy",
     "pydra>=1.0a2"
 ]
@@ -53,7 +53,7 @@ test = [
     "pytest-xdist",
     "pytest-rerunfailures",
     "codecov",
-    "fileformats-medimage_mrtrix3-extras",
+    "fileformats-vendor-mrtrix3-extras",
 ]
 
 [tool.hatch.version]
