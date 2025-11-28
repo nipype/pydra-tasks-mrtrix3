@@ -13,11 +13,9 @@ from tqdm import tqdm
 import click
 import black.report
 import black.parsing
-from fileformats.core import FileSet
 from fileformats.vendor.mrtrix3.medimage import ImageFormat, ImageIn, ImageOut, Tracks
 from pydra.compose import shell
-from pydra.compose.base import NO_DEFAULT
-from pydra.utils.typing import MultiInputObj
+from pydra.utils.typing import MultiInputObj, is_fileset_or_union
 from pydra.utils.general import get_fields, add_exc_note
 
 
@@ -392,7 +390,7 @@ def test_{cmd_name.lower()}(tmp_path, cli_parse_only):
                     + ", ".join(get_value(a) for a in ty.get_args(type_))
                     + "])"
                 )
-            elif type_ is ty.Any or issubclass(type_, FileSet):
+            elif type_ is ty.Any or is_fileset_or_union(type_):
                 value = "File.sample()"
             else:
                 raise NotImplementedError
