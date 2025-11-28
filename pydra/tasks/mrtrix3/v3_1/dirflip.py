@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -22,7 +22,7 @@ class DirFlip(shell.Task["DirFlip.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com)
 
@@ -57,10 +57,15 @@ class DirFlip(shell.Task["DirFlip.Outputs"]):
         argstr="-number",
         help="""number of shuffles to try (default: 100000000)""",
     )
+    preserve: int | None = shell.arg(
+        default=None,
+        argstr="-preserve",
+        help="""preserve the sign of some number of directions at the start of the set""",
+    )
     cartesian: bool = shell.arg(
         default=False,
         argstr="-cartesian",
-        help="""Output the directions in Cartesian coordinates [x y z] instead of [az el].""",
+        help="""Output directions in Cartesian coordinates [x y z] instead of spherical angles [az in].""",
     )
 
     # Standard options

@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -13,7 +13,7 @@ class Sh2Amp(shell.Task["Sh2Amp.Outputs"]):
     """The input image should consist of a 4D or 5D image, with SH coefficients along the 4th dimension according to the convention below. If 4D (or size 1 along the 5th dimension), the program expects to be provided with a single shell of directions. If 5D, each set of coefficients along the 5th dimension is understood to correspond to a different shell.
 
         The directions can be provided as:
-    - a 2-column ASCII text file containing azimuth / elevation pairs (eg. as produced by dirgen)
+    - a 2-column ASCII text file containing azimuth / inclination pairs (eg. as produced by dirgen)
     - a 3-column ASCII text file containing x, y, z Cartesian direction vectors (eg. as produced by dirgen -cart)
     - a 4-column ASCII text file containing the x, y, z, b components of a full DW encoding scheme (in MRtrix format, see main documentation for details).
     - an image file whose header contains a valid DW encoding scheme
@@ -23,7 +23,7 @@ class Sh2Amp(shell.Task["Sh2Amp.Outputs"]):
         If the input image contains multiple shells (its size along the 5th dimension is greater than one), the program will expect the direction set to contain multiple shells, which can only be provided as a full DW encodings (the last two options in the list above).
 
         The spherical harmonic coefficients are stored according to the conventions described in the main documentation, which can be found at the following link:
-    https://mrtrix.readthedocs.io/en/3.0.4/concepts/spherical_harmonics.html
+    https://mrtrix.readthedocs.io/en/3.0.7/concepts/spherical_harmonics.html
 
 
         References
@@ -35,7 +35,7 @@ class Sh2Amp(shell.Task["Sh2Amp.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: David Raffelt (david.raffelt@florey.edu.au) and J-Donald Tournier (jdtournier@gmail.com)
 
@@ -63,7 +63,7 @@ class Sh2Amp(shell.Task["Sh2Amp.Outputs"]):
         position=1,
         help="""the input spherical harmonic (SH) coefficients image""",
     )
-    directions: File = shell.arg(
+    fibre_directions: File = shell.arg(
         argstr="",
         position=2,
         help="""the set of directions along which the SH functions will be sampled""",
@@ -90,10 +90,11 @@ class Sh2Amp(shell.Task["Sh2Amp.Outputs"]):
     )
 
     # Stride options:
-    strides: ty.Any = shell.arg(
+    strides: ImageIn | list[int] | None = shell.arg(
         default=None,
         argstr="-strides",
         help="""specify the strides of the output data in memory; either as a comma-separated list of (signed) integers, or as a template image from which the strides shall be extracted and used. The actual strides produced will depend on whether the output image format can support it.""",
+        sep=",",
     )
 
     # Data type options:

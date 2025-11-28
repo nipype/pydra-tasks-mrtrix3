@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -9,8 +9,14 @@ from pydra.utils.typing import MultiInputObj
 
 
 @shell.define
-class TsfMult(shell.Task["TsfMult.Outputs"]):
-    """
+class FixelTransform(shell.Task["FixelTransform.Outputs"]):
+    """Unlike the fixelreorient command, which does not move fixels in space but just reorients them in place based on the premise of a prior transformation having been applied, this command additionally involves applying a spatial transformation to input fixel data.
+
+        Because it is not trivial to interpolate fixel data at sub-voxel locations, the resampling following transformation is performed using nearest-neighbour interpolation. This also means that there may be some fixels in the input dataset for which there is no corresponding fixel created in the output dataset, as well as fixels in the input dataset for which there are multiple corresponding fixels created in the output dataset. Finally, there is no assurance of any form of fixel correspondence between the input and output datasets.
+
+        The output fixel dataset will consist of the compulsory index and directions images, and resampled versions of any fixel data files found in the input directory. Any voxel images present in the input fixel directory will be skipped. Fixel data files with more than one column are currently not supported. This command does not apply any modulation to fixel-wise data based on the deformation applied.
+
+
         References
         ----------
 
@@ -20,9 +26,9 @@ class TsfMult(shell.Task["TsfMult.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
-        Author: David Raffelt (david.raffelt@florey.edu.au)
+        Author: Robert E. Smith (robert.smith@florey.edu.au)
 
         Copyright: Copyright (c) 2008-2025 the MRtrix3 contributors.
 
@@ -40,18 +46,18 @@ class TsfMult(shell.Task["TsfMult.Outputs"]):
     For more details, see http://www.mrtrix.org/.
     """
 
-    executable = "tsfmult"
+    executable = "fixeltransform"
 
     # Arguments
-    input1: File = shell.arg(
+    fixel_in: Directory = shell.arg(
         argstr="",
         position=1,
-        help="""the first input track scalar file.""",
+        help="""the input fixel directory""",
     )
-    input1: File = shell.arg(
+    warp: ImageIn = shell.arg(
         argstr="",
         position=2,
-        help="""the second input track scalar file.""",
+        help="""the 4D deformation field""",
     )
 
     # Options
@@ -90,9 +96,9 @@ class TsfMult(shell.Task["TsfMult.Outputs"]):
     )
 
     class Outputs(shell.Outputs):
-        out_file: File = shell.outarg(
+        fixel_out: Directory = shell.outarg(
             argstr="",
             position=3,
-            path_template="out_file.txt",
-            help="""the output track scalar file""",
+            path_template="fixel_out",
+            help="""the output fixel directory""",
         )

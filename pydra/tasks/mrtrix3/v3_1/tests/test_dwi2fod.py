@@ -24,11 +24,11 @@ def test_dwi2fod(tmp_path, cli_parse_only):
         neg_lambda=None,
         niter=None,
         norm_lambda=None,
-        response_odf=[File.sample()],
         shells=None,
         strides=None,
         threshold=None,
         predicted_signal=None,
+        response_odf=list([File.sample()]),
     )
     result = task(worker="debug")
     assert not result.errored

@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -94,7 +94,7 @@ class MrConvert(shell.Task["MrConvert.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com) and Robert E. Smith (robert.smith@florey.edu.au)
 
@@ -176,17 +176,18 @@ class MrConvert(shell.Task["MrConvert.Outputs"]):
         help="""append the given value to the specified key in the image header (this adds the value specified as a new line in the header value).""",
         sep=" ",
     )
-    copy_properties: ty.Any = shell.arg(
+    copy_properties: File | ImageIn | None = shell.arg(
         default=None,
         argstr="-copy_properties",
         help="""clear all generic properties and replace with the properties from the image / file specified.""",
     )
 
     # Stride options:
-    strides: ty.Any = shell.arg(
+    strides: ImageIn | list[int] | None = shell.arg(
         default=None,
         argstr="-strides",
         help="""specify the strides of the output data in memory; either as a comma-separated list of (signed) integers, or as a template image from which the strides shall be extracted and used. The actual strides produced will depend on whether the output image format can support it.""",
+        sep=",",
     )
 
     # Data type options:
@@ -262,6 +263,11 @@ class MrConvert(shell.Task["MrConvert.Outputs"]):
         default=None,
         argstr="-import_pe_table",
         help="""import a phase-encoding table from file""",
+    )
+    import_pe_topup: File | None = shell.arg(
+        default=None,
+        argstr="-import_pe_topup",
+        help="""import a phase-encoding table intended for FSL topup from file""",
     )
     import_pe_eddy: tuple[File, File] | None = shell.arg(
         default=None,
@@ -339,6 +345,12 @@ class MrConvert(shell.Task["MrConvert.Outputs"]):
             argstr="-export_pe_table",
             path_template="export_pe_table.txt",
             help="""export phase-encoding table to file""",
+        )
+        export_pe_topup: File | bool | None = shell.outarg(
+            default=None,
+            argstr="-export_pe_topup",
+            path_template="export_pe_topup.txt",
+            help="""export phase-encoding table to file intended for FSL topup""",
         )
         export_pe_eddy: tuple[File, File] | bool | None = shell.outarg(
             default=None,

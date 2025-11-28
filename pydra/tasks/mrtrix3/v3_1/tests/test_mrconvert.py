@@ -25,6 +25,7 @@ def test_mrconvert(tmp_path, cli_parse_only):
         grad=None,
         import_pe_eddy=None,
         import_pe_table=None,
+        import_pe_topup=None,
         in_file=Nifti1.sample(),
         json_import=None,
         scaling=None,
@@ -35,6 +36,7 @@ def test_mrconvert(tmp_path, cli_parse_only):
         export_grad_mrtrix=None,
         export_pe_eddy=None,
         export_pe_table=None,
+        export_pe_topup=None,
         json_export=None,
         out_file=File.sample(),
     )

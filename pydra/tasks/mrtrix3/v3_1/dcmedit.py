@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -29,7 +29,7 @@ class DcmEdit(shell.Task["DcmEdit.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com)
 
@@ -69,7 +69,7 @@ class DcmEdit(shell.Task["DcmEdit.Outputs"]):
         argstr="-id",
         help="""replace all ID tags with string supplied. This consists of tags (0010, 0020) PatientID and (0010, 1000) OtherPatientIDs""",
     )
-    tag: MultiInputObj[tuple[ty.Any, ty.Any, ty.Any]] | None = shell.arg(
+    tag: MultiInputObj[tuple[Any, Any, Any]] | None = shell.arg(
         default=None,
         argstr="-tag",
         help="""replace specific tag.""",

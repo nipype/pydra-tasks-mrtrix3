@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -26,7 +26,7 @@ class Fod2Fixel(shell.Task["Fod2Fixel.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: Robert E. Smith (robert.smith@florey.edu.au)
 
@@ -57,7 +57,7 @@ class Fod2Fixel(shell.Task["Fod2Fixel.Outputs"]):
 
     # Options
 
-    # Metric values for fixel-based sparse output images:
+    # Metric values for output fixel data files:
 
     # FOD FMLS segmenter options:
     fmls_integral: float | None = shell.arg(
@@ -160,4 +160,10 @@ class Fod2Fixel(shell.Task["Fod2Fixel.Outputs"]):
             argstr="-disp",
             path_template="disp.mif",
             help="""output a measure of dispersion per fixel as the ratio between FOD lobe integral and maximal peak amplitude""",
+        )
+        skew: ImageOut | bool | None = shell.outarg(
+            default=None,
+            argstr="-skew",
+            path_template="skew.mif",
+            help="""output a measure of FOD lobe skew as the angle between peak and weighted mean directions""",
         )

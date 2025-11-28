@@ -13,9 +13,9 @@ def test_connectomeedit(tmp_path, cli_parse_only):
     task = ConnectomeEdit(
         debug=False,
         force=False,
-        input="a-string",
+        in_file=File.sample(),
         operation="to_symmetric",
-        output="a-string",
+        out_file=File.sample(),
     )
     result = task(worker="debug")
     assert not result.errored

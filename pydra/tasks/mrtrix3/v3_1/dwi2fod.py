@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -11,7 +11,7 @@ from pydra.utils.typing import MultiInputObj
 @shell.define
 class Dwi2Fod(shell.Task["Dwi2Fod.Outputs"]):
     """The spherical harmonic coefficients are stored according to the conventions described in the main documentation, which can be found at the following link:
-    https://mrtrix.readthedocs.io/en/3.0.4/concepts/spherical_harmonics.html
+    https://mrtrix.readthedocs.io/en/3.0.7/concepts/spherical_harmonics.html
 
 
         Example usages
@@ -49,7 +49,7 @@ class Dwi2Fod(shell.Task["Dwi2Fod.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com) and Ben Jeurissen (ben.jeurissen@uantwerpen.be)
 
@@ -83,11 +83,6 @@ class Dwi2Fod(shell.Task["Dwi2Fod.Outputs"]):
         position=2,
         help="""the input diffusion-weighted image""",
     )
-    response_odf: MultiInputObj[ty.Any] = shell.arg(
-        argstr="",
-        position=3,
-        help="""pairs of input tissue response and output ODF images""",
-    )
 
     # Options
 
@@ -117,7 +112,7 @@ WARNING: note that, even though the b=0 volumes are never referred to as a 'shel
     directions: File | None = shell.arg(
         default=None,
         argstr="-directions",
-        help="""specify the directions over which to apply the non-negativity constraint (by default, the built-in 300 direction set is used). These should be supplied as a text file containing [ az el ] pairs for the directions.""",
+        help="""specify the directions over which to apply the non-negativity constraint (by default, the built-in 300 direction set is used). These should be supplied as a text file containing [ az in ] pairs for the directions.""",
     )
     lmax: list[int] | None = shell.arg(
         default=None,
@@ -171,10 +166,11 @@ WARNING: note that, even though the b=0 volumes are never referred to as a 'shel
     )
 
     # Stride options:
-    strides: ty.Any = shell.arg(
+    strides: ImageIn | list[int] | None = shell.arg(
         default=None,
         argstr="-strides",
         help="""specify the strides of the output data in memory; either as a comma-separated list of (signed) integers, or as a template image from which the strides shall be extracted and used. The actual strides produced will depend on whether the output image format can support it.""",
+        sep=",",
     )
 
     # Standard options
@@ -211,6 +207,18 @@ WARNING: note that, even though the b=0 volumes are never referred to as a 'shel
     )
 
     class Outputs(shell.Outputs):
+        response_odf: list[File | ImageOut] = shell.outarg(
+            argstr="",
+            position=3,
+            path_template="response_odf.mif",
+            help="""pairs of input tissue response and output ODF images""",
+        )
+        predicted_signal: ImageOut | bool | None = shell.outarg(
+            default=None,
+            argstr="-predicted_signal",
+            path_template="predicted_signal.mif",
+            help="""output the predicted dwi image.""",
+        )
         predicted_signal: ImageOut | bool | None = shell.outarg(
             default=None,
             argstr="-predicted_signal",

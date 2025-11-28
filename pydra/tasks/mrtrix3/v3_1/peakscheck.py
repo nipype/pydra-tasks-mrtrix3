@@ -8,20 +8,14 @@ from pydra.utils.typing import MultiInputObj
 from pydra.compose import shell
 
 
-@shell.define(xor=[["grad", "fslgrad", None]])
-class DwiNormalise_Mtnorm(shell.Task["DwiNormalise_Mtnorm.Outputs"]):
+@shell.define(
+    xor=[["info", "quiet", "debug", None], ["noshuffle", "notransform", None]]
+)
+class PeaksCheck(shell.Task["PeaksCheck.Outputs"]):
     """
 
     References
     ----------
-
-    * Jeurissen, B; Tournier, J-D; Dhollander, T; Connelly, A & Sijbers, J. Multi-tissue constrained spherical deconvolution for improved analysis of multi-shell diffusion MRI data. NeuroImage, 2014, 103, 411-426
-
-    * Raffelt, D.; Dhollander, T.; Tournier, J.-D.; Tabbara, R.; Smith, R. E.; Pierre, E. & Connelly, A. Bias Field Correction and Intensity Normalisation for Quantitative Analysis of Apparent Fibre Density. In Proc. ISMRM, 2017, 26, 3541
-
-    * Dhollander, T.; Tabbara, R.; Rosnarho-Tornstrand, J.; Tournier, J.-D.; Raffelt, D. & Connelly, A. Multi-tissue log-domain intensity and inhomogeneity normalisation for quantitative apparent fibre density. In Proc. ISMRM, 2021, 29, 2472
-
-    * Dhollander, T.; Raffelt, D. & Connelly, A. Unsupervised 3-tissue response function estimation from single-shell or multi-shell diffusion MR data without a co-registered T1 image. ISMRM Workshop on Breaking the Barriers of Diffusion MRI, 2016, 5
 
     Tournier, J.-D.; Smith, R. E.; Raffelt, D.; Tabbara, R.; Dhollander, T.; Pietsch, M.; Christiaens, D.; Jeurissen, B.; Yeh, C.-H. & Connelly, A. MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation. NeuroImage, 2019, 202, 116137
 
@@ -29,7 +23,7 @@ class DwiNormalise_Mtnorm(shell.Task["DwiNormalise_Mtnorm.Outputs"]):
 
 
 
-    **Author:** Robert E. Smith (robert.smith@florey.edu.au) and Arshiya Sangchooli (asangchooli@student.unimelb.edu.au)
+    **Author:** Robert E. Smith (robert.smith@florey.edu.au)
 
     **Copyright:** Copyright (c) 2008-2025 the MRtrix3 contributors.
 
@@ -48,37 +42,12 @@ class DwiNormalise_Mtnorm(shell.Task["DwiNormalise_Mtnorm.Outputs"]):
 
     """
 
-    executable = ("dwinormalise", "mtnorm")
+    executable = "peakscheck"
 
     in_file: ImageIn = shell.arg(
         position=1,
         argstr="",
-        help="The input DWI series",
-    )
-    grad: File | None = shell.arg(
-        help="Provide the diffusion gradient table in MRtrix format",
-        argstr="-grad",
-        default=None,
-    )
-    fslgrad: File | None = shell.arg(
-        help="Provide the diffusion gradient table in FSL bvecs/bvals format",
-        argstr="-fslgrad",
-        default=None,
-    )
-    lmax: list[int] | None = shell.arg(
-        help='The maximum spherical harmonic degree for the estimated FODs (see Description); defaults are "4,0,0" for multi-shell and "4,0" for single-shell data)',
-        argstr="-lmax",
-        default=None,
-    )
-    mask: ImageIn | None = shell.arg(
-        help="Provide a mask image for relevant calculations (if not provided, the default dwi2mask algorithm will be used)",
-        argstr="-mask",
-        default=None,
-    )
-    reference: float | None = shell.arg(
-        help="Set the target CSF b=0 intensity in the output DWI series (default: 1000)",
-        argstr="-reference",
-        default=None,
+        help="The input fibre orientations image to be checked",
     )
     nocleanup: bool = shell.arg(
         help="do not delete intermediate files during script execution, and do not delete scratch directory at script completion.",
@@ -135,17 +104,53 @@ class DwiNormalise_Mtnorm(shell.Task["DwiNormalise_Mtnorm.Outputs"]):
         argstr="-version",
         default=False,
     )
+    mask: ImageIn | None = shell.arg(
+        help="Provide a mask image within which to seed & constrain tracking",
+        argstr="-mask",
+        default=None,
+    )
+    number: int | None = shell.arg(
+        help="Set the number of tracks to generate for each test",
+        argstr="-number",
+        default=None,
+    )
+    threshold: float | None = shell.arg(
+        help="Modulate thresold on the ratio of empirical to maximal mean length to issue an error",
+        argstr="-threshold",
+        default=None,
+    )
+    format: str | None = shell.arg(
+        help="The format in which peak orientations are specified; one of: spherical,unitspherical,3vector,unit3vector",
+        allowed_values=["spherical", "unitspherical", "3vector", "unit3vector"],
+        argstr="-format",
+        default=None,
+    )
+    reference: str | None = shell.arg(
+        help="The a priori expected references axes against which the input orientations are defined; one of: xyz,ijk,fsl",
+        allowed_values=["xyz", "ijk", "fsl"],
+        argstr="-reference",
+        default=None,
+    )
+    noshuffle: bool = shell.arg(
+        help="Do not evaluate possibility of requiring shuffles of axes or angles; only consider prospective transforms from alternative reference frames to real / scanner space",
+        argstr="-noshuffle",
+        default=False,
+    )
+    notransform: bool = shell.arg(
+        help="Do not evaluate possibility of requiring transform of peak orientations from image to real / scanner space; only consider prospective shuffles of axes or angles",
+        argstr="-notransform",
+        default=False,
+    )
+    all: bool = shell.arg(
+        help="Print table containing all results to standard output",
+        argstr="-all",
+        default=False,
+    )
 
     class Outputs(shell.Outputs):
-        out_file: ImageOut = shell.outarg(
-            position=2,
-            argstr="",
-            help="The normalised DWI series",
-            path_template="out_file.mif",
-        )
-        scale: File | None = shell.outarg(
-            help="Write the scaling factor applied to the DWI series to a text file",
-            argstr="-scale",
+        out_table: File | None = shell.outarg(
+            help="Write text file with table containing all results",
+            argstr="-out_table",
             default=None,
-            path_template="scale.txt",
+            path_template="out_table.txt",
         )

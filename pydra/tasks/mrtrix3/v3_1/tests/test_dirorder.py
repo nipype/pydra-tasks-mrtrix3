@@ -15,6 +15,8 @@ def test_dirorder(tmp_path, cli_parse_only):
         debug=False,
         force=False,
         in_file=File.sample(),
+        preserve=None,
+        indices=None,
         out_file=File.sample(),
     )
     result = task(worker="debug")

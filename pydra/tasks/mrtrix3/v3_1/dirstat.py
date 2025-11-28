@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -12,7 +12,7 @@ from pydra.utils.typing import MultiInputObj
 class DirStat(shell.Task["DirStat.Outputs"]):
     """This command will accept as inputs:
 
-        - directions file in spherical coordinates (ASCII text, [ az el ] space-separated values, one per line);
+        - directions file in spherical coordinates (ASCII text, [ az in ] space-separated values, one per line);
 
         - directions file in Cartesian coordinates (ASCII text, [ x y z ] space-separated values, one per line);
 
@@ -67,7 +67,7 @@ class DirStat(shell.Task["DirStat.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com)
 
@@ -97,7 +97,7 @@ class DirStat(shell.Task["DirStat.Outputs"]):
     )
 
     # Options
-    output: ty.Any = shell.arg(
+    output: str | None = shell.arg(
         default=None,
         argstr="-output",
         help="""output selected metrics as a space-delimited list,suitable for use in scripts. This will produce one line of values per selected shell. Valid metrics are as specified in the description above.""",

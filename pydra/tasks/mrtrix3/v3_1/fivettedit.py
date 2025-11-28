@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -10,7 +10,11 @@ from pydra.utils.typing import MultiInputObj
 
 @shell.define
 class FivettEdit(shell.Task["FivettEdit.Outputs"]):
-    """
+    """The user-provided images are interpreted as desired partial volume fractions in the output image. For any voxel with a non-zero value in such an image, this will be the value for that tissue in the output 5TT image. For tissues for which the user has not explicitly requested a change to the partial volume fraction, the partial volume fraction may nevertheless change in order to preserve the requirement of a unity sum of partial volume fractions in each voxel.
+
+        Any voxels that are included in the mask provided by the -none option will be erased in the output image; this supersedes all other user inputs.
+
+
         References
         ----------
 
@@ -20,7 +24,7 @@ class FivettEdit(shell.Task["FivettEdit.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: Robert E. Smith (robert.smith@florey.edu.au)
 
@@ -53,32 +57,32 @@ class FivettEdit(shell.Task["FivettEdit.Outputs"]):
     cgm: ImageIn | None = shell.arg(
         default=None,
         argstr="-cgm",
-        help="""provide a mask of voxels that should be set to cortical grey matter""",
+        help="""provide an image of new cortical grey matter partial volume fractions""",
     )
     sgm: ImageIn | None = shell.arg(
         default=None,
         argstr="-sgm",
-        help="""provide a mask of voxels that should be set to sub-cortical grey matter""",
+        help="""provide an image of new sub-cortical grey matter partial volume fractions""",
     )
     wm: ImageIn | None = shell.arg(
         default=None,
         argstr="-wm",
-        help="""provide a mask of voxels that should be set to white matter""",
+        help="""provide an image of new white matter partial volume fractions""",
     )
     csf: ImageIn | None = shell.arg(
         default=None,
         argstr="-csf",
-        help="""provide a mask of voxels that should be set to CSF""",
+        help="""provide an image of new CSF partial volume fractions""",
     )
     path: ImageIn | None = shell.arg(
         default=None,
         argstr="-path",
-        help="""provide a mask of voxels that should be set to pathological tissue""",
+        help="""provide an image of new pathological tissue partial volume fractions""",
     )
     none: ImageIn | None = shell.arg(
         default=None,
         argstr="-none",
-        help="""provide a mask of voxels that should be cleared (i.e. are non-brain); note that this will supersede all other provided masks""",
+        help="""provide a mask of voxels that should be cleared (i.e. are non-brain)""",
     )
 
     # Standard options

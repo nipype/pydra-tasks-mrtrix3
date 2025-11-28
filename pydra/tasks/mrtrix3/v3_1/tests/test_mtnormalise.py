@@ -14,7 +14,6 @@ def test_mtnormalise(tmp_path, cli_parse_only):
         balanced=False,
         debug=False,
         force=False,
-        input_output=[File.sample()],
         mask=Nifti1.sample(),
         niter=None,
         order=None,
@@ -22,6 +21,7 @@ def test_mtnormalise(tmp_path, cli_parse_only):
         check_factors=None,
         check_mask=None,
         check_norm=None,
+        input_output=list([File.sample()]),
     )
     result = task(worker="debug")
     assert not result.errored

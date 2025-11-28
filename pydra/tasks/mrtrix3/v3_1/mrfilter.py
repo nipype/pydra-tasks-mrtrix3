@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -10,7 +10,7 @@ from pydra.utils.typing import MultiInputObj
 
 @shell.define
 class MrFilter(shell.Task["MrFilter.Outputs"]):
-    """The available filters are: fft, gradient, median, smooth, normalise, zclean.
+    """The available filters are: demodulate, fft, gradient, median, smooth, normalise, zclean.
 
         Each filter has its own unique set of optional parameters.
 
@@ -26,7 +26,7 @@ class MrFilter(shell.Task["MrFilter.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: Robert E. Smith (robert.smith@florey.edu.au) and David Raffelt (david.raffelt@florey.edu.au) and J-Donald Tournier (jdtournier@gmail.com)
 
@@ -58,10 +58,31 @@ class MrFilter(shell.Task["MrFilter.Outputs"]):
         argstr="",
         position=2,
         help="""the type of filter to be applied""",
-        allowed_values=["fft", "gradient", "median", "smooth", "normalise", "zclean"],
+        allowed_values=[
+            "demodulate",
+            "fft",
+            "gradient",
+            "median",
+            "smooth",
+            "normalise",
+            "zclean",
+        ],
     )
 
     # Options
+
+    # Options for demodulate filter:
+    axes: list[int] | None = shell.arg(
+        default=None,
+        argstr="-axes",
+        help="""the axes along which to demodulate; by default, this will be chosen based on the presence / content of header field SliceEncodingDirection: two spatial axes if present, three spatial axes if absent""",
+        sep=",",
+    )
+    linear: bool = shell.arg(
+        default=False,
+        argstr="-linear",
+        help="""demodulate using only a linear phase ramp, rather than the default non-linear phase map""",
+    )
 
     # Options for FFT filter:
     axes: list[int] | None = shell.arg(
@@ -168,10 +189,11 @@ class MrFilter(shell.Task["MrFilter.Outputs"]):
     )
 
     # Stride options:
-    strides: ty.Any = shell.arg(
+    strides: ImageIn | list[int] | None = shell.arg(
         default=None,
         argstr="-strides",
         help="""specify the strides of the output data in memory; either as a comma-separated list of (signed) integers, or as a template image from which the strides shall be extracted and used. The actual strides produced will depend on whether the output image format can support it.""",
+        sep=",",
     )
 
     # Standard options

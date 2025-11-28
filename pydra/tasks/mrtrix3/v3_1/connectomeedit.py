@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -20,7 +20,7 @@ class ConnectomeEdit(shell.Task["ConnectomeEdit.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: Matteo Frigo (matteo.frigo@inria.fr)
 
@@ -43,7 +43,7 @@ class ConnectomeEdit(shell.Task["ConnectomeEdit.Outputs"]):
     executable = "connectomeedit"
 
     # Arguments
-    input: str = shell.arg(
+    in_file: File = shell.arg(
         argstr="",
         position=1,
         help="""the input connectome.""",
@@ -59,11 +59,6 @@ class ConnectomeEdit(shell.Task["ConnectomeEdit.Outputs"]):
             "transpose",
             "zero_diagonal",
         ],
-    )
-    output: str = shell.arg(
-        argstr="",
-        position=3,
-        help="""the output connectome.""",
     )
 
     # Options
@@ -102,4 +97,9 @@ class ConnectomeEdit(shell.Task["ConnectomeEdit.Outputs"]):
     )
 
     class Outputs(shell.Outputs):
-        pass
+        out_file: File = shell.outarg(
+            argstr="",
+            position=3,
+            path_template="out_file.txt",
+            help="""the output connectome.""",
+        )

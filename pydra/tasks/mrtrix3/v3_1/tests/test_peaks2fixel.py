@@ -13,7 +13,7 @@ def test_peaks2fixel(tmp_path, cli_parse_only):
     task = Peaks2Fixel(
         dataname=None,
         debug=False,
-        directions=Nifti1.sample(),
+        fibre_directions=Nifti1.sample(),
         force=False,
         fixels=File.sample(),
     )

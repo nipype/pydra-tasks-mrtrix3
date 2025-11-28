@@ -1,18 +1,19 @@
-# Auto-generated test for dwiextract
+# Auto-generated test for dwirecon
 
 import pytest
 from fileformats.generic import File, Directory, FsObject  # noqa
 from fileformats.medimage import Nifti1  # noqa
 from fileformats.vendor.mrtrix3.medimage import ImageFormat, ImageIn, Tracks  # noqa
-from pydra.tasks.mrtrix3.v3_1 import DwiExtract
+from pydra.tasks.mrtrix3.v3_1 import DwiRecon
 
 
 @pytest.mark.xfail
-def test_dwiextract(tmp_path, cli_parse_only):
+def test_dwirecon(tmp_path, cli_parse_only):
 
-    task = DwiExtract(
-        bzero=False,
+    task = DwiRecon(
         debug=False,
+        exponent=None,
+        field=None,
         force=False,
         fslgrad=None,
         grad=None,
@@ -20,14 +21,15 @@ def test_dwiextract(tmp_path, cli_parse_only):
         import_pe_table=None,
         import_pe_topup=None,
         in_file=Nifti1.sample(),
-        no_bzero=False,
-        pe=None,
-        shells=None,
-        singleshell=False,
-        strides=None,
+        lmax=None,
+        operation="combine_pairs",
+        pairs_in=None,
         export_grad_fsl=None,
         export_grad_mrtrix=None,
         out_file=File.sample(),
+        pairs_out=None,
+        predicted=None,
+        weights=None,
     )
     result = task(worker="debug")
     assert not result.errored

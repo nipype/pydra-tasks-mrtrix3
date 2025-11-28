@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -39,7 +39,7 @@ class MtNormalise(shell.Task["MtNormalise.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: Thijs Dhollander (thijs.dhollander@gmail.com) and Rami Tabbara (rami.tabbara@florey.edu.au) and David Raffelt (david.raffelt@florey.edu.au) and Jonas Rosnarho-Tornstrand (jonas.rosnarho-tornstrand@kcl.ac.uk) and J-Donald Tournier (jdtournier@gmail.com)
 
@@ -62,11 +62,6 @@ class MtNormalise(shell.Task["MtNormalise.Outputs"]):
     executable = "mtnormalise"
 
     # Arguments
-    input_output: MultiInputObj[ty.Any] = shell.arg(
-        argstr="",
-        position=1,
-        help="""list of all input and output tissue compartment files (see example usage).""",
-    )
 
     # Options
     mask: ImageIn = shell.arg(
@@ -132,6 +127,12 @@ class MtNormalise(shell.Task["MtNormalise.Outputs"]):
     )
 
     class Outputs(shell.Outputs):
+        input_output: list[ImageIn | ImageOut] = shell.outarg(
+            argstr="",
+            position=1,
+            path_template="input_output.mif",
+            help="""list of all input and output tissue compartment files (see example usage).""",
+        )
         check_norm: ImageOut | bool | None = shell.outarg(
             default=None,
             argstr="-check_norm",

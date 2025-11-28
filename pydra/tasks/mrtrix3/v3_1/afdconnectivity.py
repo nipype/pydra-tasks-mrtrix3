@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -20,7 +20,7 @@ class AfdConnectivity(shell.Task["AfdConnectivity.Outputs"]):
 
         Note that the sum of the AFD is normalised by streamline length to account for subject differences in fibre bundle length. This normalisation results in a measure that is more related to the cross-sectional volume of the tract (and therefore 'connectivity'). Note that SIFT-ed tract count is a superior measure because it is unaffected by tangential yet unrelated fibres. However, AFD connectivity may be used as a substitute when Anatomically Constrained Tractography is not possible due to uncorrectable EPI distortions, and SIFT may therefore not be as effective.
 
-        Longer discussion regarding this command can additionally be found at: https://mrtrix.readthedocs.io/en/3.0.4/concepts/afd_connectivity.html (as well as in the relevant reference).
+        Longer discussion regarding this command can additionally be found at: https://mrtrix.readthedocs.io/en/3.0.7/concepts/afd_connectivity.html (as well as in the relevant reference).
 
 
         References
@@ -34,7 +34,7 @@ class AfdConnectivity(shell.Task["AfdConnectivity.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: David Raffelt (david.raffelt@florey.edu.au) and Robert E. Smith (robert.smith@florey.edu.au)
 

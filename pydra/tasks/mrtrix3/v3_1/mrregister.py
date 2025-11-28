@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -31,7 +31,7 @@ class MrRegister(shell.Task["MrRegister.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: David Raffelt (david.raffelt@florey.edu.au) and Max Pietsch (maximilian.pietsch@kcl.ac.uk)
 
@@ -70,7 +70,7 @@ class MrRegister(shell.Task["MrRegister.Outputs"]):
     type: str | None = shell.arg(
         default=None,
         argstr="-type",
-        help="""the registration type. Valid choices are: rigid, affine, nonlinear, rigid_affine, rigid_nonlinear, affine_nonlinear, rigid_affine_nonlinear (Default: affine_nonlinear)""",
+        help="""the registration type. Valid choices are: rigid, affine, nonlinear, rigid_affine, rigid_nonlinear, affine_nonlinear, rigid_affine_nonlinear (default: affine_nonlinear)""",
         allowed_values=[
             "rigid",
             "affine",
@@ -313,7 +313,7 @@ class MrRegister(shell.Task["MrRegister.Outputs"]):
         help="""explicitly set the lmax to be used per scale factor in non-linear FOD registration. By default, FOD registration will use lmax 0,2,4 with default scale factors 0.25,0.5,1.0 respectively. Note that no reorientation will be performed with lmax = 0.""",
         sep=",",
     )
-    diagnostics_image: ty.Any = shell.arg(
+    diagnostics_image: Any = shell.arg(
         default=None,
         argstr="-diagnostics_image",
         help="""write intermediate images for diagnostics purposes""",

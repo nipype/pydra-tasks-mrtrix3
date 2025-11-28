@@ -14,7 +14,7 @@ def test_amp2response(tmp_path, cli_parse_only):
         amps=Nifti1.sample(),
         debug=False,
         directions=None,
-        directions_image=Nifti1.sample(),
+        fibre_directions=Nifti1.sample(),
         force=False,
         isotropic=False,
         lmax=None,

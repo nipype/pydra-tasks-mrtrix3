@@ -39,6 +39,7 @@ def test_mrinfo(tmp_path, cli_parse_only):
         export_grad_mrtrix=None,
         export_pe_eddy=None,
         export_pe_table=None,
+        export_pe_topup=None,
         json_all=None,
         json_keyval=None,
     )

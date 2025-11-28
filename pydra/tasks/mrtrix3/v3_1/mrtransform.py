@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -36,7 +36,7 @@ class MrTransform(shell.Task["MrTransform.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com) and David Raffelt (david.raffelt@florey.edu.au) and Max Pietsch (maximilian.pietsch@kcl.ac.uk)
 
@@ -114,7 +114,7 @@ class MrTransform(shell.Task["MrTransform.Outputs"]):
     interp: str | None = shell.arg(
         default=None,
         argstr="-interp",
-        help="""set the interpolation method to use when reslicing (choices: nearest, linear, cubic, sinc. Default: cubic).""",
+        help="""set the interpolation method to use when reslicing (choices: nearest, linear, cubic, sinc; default: cubic).""",
         allowed_values=["nearest", "linear", "cubic", "sinc"],
     )
     oversample: list[int] | None = shell.arg(
@@ -223,10 +223,11 @@ class MrTransform(shell.Task["MrTransform.Outputs"]):
     )
 
     # Stride options:
-    strides: ty.Any = shell.arg(
+    strides: ImageIn | list[int] | None = shell.arg(
         default=None,
         argstr="-strides",
         help="""specify the strides of the output data in memory; either as a comma-separated list of (signed) integers, or as a template image from which the strides shall be extracted and used. The actual strides produced will depend on whether the output image format can support it.""",
+        sep=",",
     )
 
     # Additional generic options for mrtransform:

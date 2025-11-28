@@ -13,7 +13,7 @@ def test_sh2response(tmp_path, cli_parse_only):
     task = Sh2Response(
         SH=Nifti1.sample(),
         debug=False,
-        directions=Nifti1.sample(),
+        fibre_directions=Nifti1.sample(),
         force=False,
         lmax=None,
         mask=Nifti1.sample(),

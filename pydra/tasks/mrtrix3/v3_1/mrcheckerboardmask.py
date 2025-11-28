@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -20,7 +20,7 @@ class MrCheckerboardmask(shell.Task["MrCheckerboardmask.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: Max Pietsch (maximilian.pietsch@kcl.ac.uk)
 
@@ -53,7 +53,7 @@ class MrCheckerboardmask(shell.Task["MrCheckerboardmask.Outputs"]):
     tiles: int | None = shell.arg(
         default=None,
         argstr="-tiles",
-        help="""specify the number of tiles in any direction""",
+        help="""specify the number of tiles in any direction (default: 5)""",
     )
     invert: bool = shell.arg(
         default=False,

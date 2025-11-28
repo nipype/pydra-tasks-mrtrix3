@@ -13,7 +13,7 @@ def test_sh2amp(tmp_path, cli_parse_only):
     task = Sh2Amp(
         datatype=None,
         debug=False,
-        directions=File.sample(),
+        fibre_directions=File.sample(),
         force=False,
         fslgrad=None,
         grad=None,

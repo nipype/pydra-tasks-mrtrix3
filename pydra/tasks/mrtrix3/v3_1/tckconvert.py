@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -33,7 +33,7 @@ class TckConvert(shell.Task["TckConvert.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: Daan Christiaens (daan.christiaens@kcl.ac.uk) and J-Donald Tournier (jdtournier@gmail.com) and Philip Broser (philip.broser@me.com) and Daniel Blezek (daniel.blezek@gmail.com)
 
@@ -56,7 +56,7 @@ class TckConvert(shell.Task["TckConvert.Outputs"]):
     executable = "tckconvert"
 
     # Arguments
-    input: ty.Any = shell.arg(
+    in_file: str | File | Tracks = shell.arg(
         argstr="",
         position=1,
         help="""the input track file.""",
@@ -151,9 +151,9 @@ class TckConvert(shell.Task["TckConvert.Outputs"]):
     )
 
     class Outputs(shell.Outputs):
-        out_file: File = shell.outarg(
+        out_file: File | Tracks = shell.outarg(
             argstr="",
             position=2,
-            path_template="out_file.txt",
+            path_template="out_file.tck",
             help="""the output track file.""",
         )

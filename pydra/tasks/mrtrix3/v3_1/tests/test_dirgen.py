@@ -13,6 +13,7 @@ def test_dirgen(tmp_path, cli_parse_only):
     task = DirGen(
         cartesian=False,
         debug=False,
+        fixed=None,
         force=False,
         ndir=1,
         niter=None,

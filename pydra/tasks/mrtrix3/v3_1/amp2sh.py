@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -12,10 +12,10 @@ from pydra.utils.typing import MultiInputObj
 class Amp2Sh(shell.Task["Amp2Sh.Outputs"]):
     """The spherical harmonic decomposition is calculated by least-squares linear fitting to the amplitude data.
 
-        The directions can be defined either as a DW gradient scheme (for example to compute the SH representation of the DW signal), a set of [az el] pairs as output by the dirgen command, or a set of [ x y z ] directions in Cartesian coordinates. The DW gradient scheme or direction set can be supplied within the input image header or using the -gradient or -directions option. Note that if a direction set and DW gradient scheme can be found, the direction set will be used by default.
+        The directions can be defined either as a DW gradient scheme (for example to compute the SH representation of the DW signal), a set of [az in] pairs as output by the dirgen command, or a set of [ x y z ] directions in Cartesian coordinates. The DW gradient scheme or direction set can be supplied within the input image header or using the -gradient or -directions option. Note that if a direction set and DW gradient scheme can be found, the direction set will be used by default.
 
         The spherical harmonic coefficients are stored according to the conventions described in the main documentation, which can be found at the following link:
-    https://mrtrix.readthedocs.io/en/3.0.4/concepts/spherical_harmonics.html
+    https://mrtrix.readthedocs.io/en/3.0.7/concepts/spherical_harmonics.html
 
 
         References
@@ -27,7 +27,7 @@ class Amp2Sh(shell.Task["Amp2Sh.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com)
 
@@ -70,7 +70,7 @@ class Amp2Sh(shell.Task["Amp2Sh.Outputs"]):
     directions: File | None = shell.arg(
         default=None,
         argstr="-directions",
-        help="""the directions corresponding to the input amplitude image used to sample AFD. By default this option is not required providing the direction set is supplied in the amplitude image. This should be supplied as a list of directions [az el], as generated using the dirgen command, or as a list of [ x y z ] Cartesian coordinates.""",
+        help="""the directions corresponding to the input amplitude image used to sample AFD. By default this option is not required providing the direction set is supplied in the amplitude image. This should be supplied as a list of directions [az in], as generated using the dirgen command, or as a list of [ x y z ] Cartesian coordinates.""",
     )
     rician: ImageIn | None = shell.arg(
         default=None,
@@ -101,10 +101,11 @@ WARNING: note that, even though the b=0 volumes are never referred to as a 'shel
     )
 
     # Stride options:
-    strides: ty.Any = shell.arg(
+    strides: ImageIn | list[int] | None = shell.arg(
         default=None,
         argstr="-strides",
         help="""specify the strides of the output data in memory; either as a comma-separated list of (signed) integers, or as a template image from which the strides shall be extracted and used. The actual strides produced will depend on whether the output image format can support it.""",
+        sep=",",
     )
 
     # Standard options

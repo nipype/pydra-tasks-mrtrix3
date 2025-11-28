@@ -12,7 +12,7 @@ def test_peaks2amp(tmp_path, cli_parse_only):
 
     task = Peaks2Amp(
         debug=False,
-        directions=Nifti1.sample(),
+        fibre_directions=Nifti1.sample(),
         force=False,
         amplitudes=File.sample(),
     )

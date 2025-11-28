@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -18,6 +18,8 @@ class MrInfo(shell.Task["MrInfo.Outputs"]):
 
         The -dwgrad, -export_* and -shell_* options provide (information about) the diffusion weighting gradient table after it has been processed by the MRtrix3 back-end (vectors normalised, b-values scaled by the square of the vector norm, depending on the -bvalue_scaling option). To see the raw gradient table information as stored in the image header, i.e. without MRtrix3 back-end processing, use "-property dw_scheme".
 
+        The -petable option exports the MRtrix3 internal representation of the phase encoding table, regardless of whether the relevant metadata are stored in the BIDS fields "PhaseEncodingDirection" and "TotalReadoutTime" or the MRtrix3-specific "pe_scheme". The contents of this query should however *not* be provided to FSL tools: despite the contents being of the same format, the phase encoding directions may be erroneously interpreted. If extracting phase encoding information to interface with FSL tools, use the -export_pe_topup or -export_pe_eddy options. More information can be found on this issue at: https://mrtrix.readthedocs.io/en/3.0.7/concepts/pe_scheme.html
+
         The -bvalue_scaling option controls an aspect of the import of diffusion gradient tables. When the input diffusion-weighting direction vectors have norms that differ substantially from unity, the b-values will be scaled by the square of their corresponding vector norm (this is how multi-shell acquisitions are frequently achieved on scanner platforms). However in some rare instances, the b-values may be correct, despite the vectors not being of unit norm (or conversely, the b-values may need to be rescaled even though the vectors are close to unit norm). This option allows the user to control this operation and override MRrtix3's automatic detection.
 
 
@@ -30,7 +32,7 @@ class MrInfo(shell.Task["MrInfo.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com) and Robert E. Smith (robert.smith@florey.edu.au)
 
@@ -167,7 +169,7 @@ class MrInfo(shell.Task["MrInfo.Outputs"]):
     petable: bool = shell.arg(
         default=False,
         argstr="-petable",
-        help="""print the phase encoding table""",
+        help="""print the MRtrix internal representation of the phase encoding table (see Description)""",
     )
 
     # Handling of piped images:
@@ -244,6 +246,12 @@ class MrInfo(shell.Task["MrInfo.Outputs"]):
             argstr="-export_pe_table",
             path_template="export_pe_table.txt",
             help="""export phase-encoding table to file""",
+        )
+        export_pe_topup: File | bool | None = shell.outarg(
+            default=None,
+            argstr="-export_pe_topup",
+            path_template="export_pe_topup.txt",
+            help="""export phase-encoding table to file intended for FSL topup""",
         )
         export_pe_eddy: tuple[File, File] | bool | None = shell.outarg(
             default=None,

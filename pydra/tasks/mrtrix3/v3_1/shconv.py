@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -17,10 +17,10 @@ class ShConv(shell.Task["ShConv.Outputs"]):
         If the responses are multi-shell (with one line of coefficients per shell), the output will be a 5-dimensional image, with the SH coefficients of the signal in each shell stored at different indices along the 5th dimension.
 
         The spherical harmonic coefficients are stored according to the conventions described in the main documentation, which can be found at the following link:
-    https://mrtrix.readthedocs.io/en/3.0.4/concepts/spherical_harmonics.html
+    https://mrtrix.readthedocs.io/en/3.0.7/concepts/spherical_harmonics.html
 
         The spherical harmonic coefficients are stored according to the conventions described in the main documentation, which can be found at the following link:
-    https://mrtrix.readthedocs.io/en/3.0.4/concepts/spherical_harmonics.html
+    https://mrtrix.readthedocs.io/en/3.0.7/concepts/spherical_harmonics.html
 
 
         References
@@ -32,7 +32,7 @@ class ShConv(shell.Task["ShConv.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: David Raffelt (david.raffelt@florey.edu.au) and J-Donald Tournier (jdtournier@gmail.com)
 
@@ -55,7 +55,7 @@ class ShConv(shell.Task["ShConv.Outputs"]):
     executable = "shconv"
 
     # Arguments
-    odf_response: MultiInputObj[ty.Any] = shell.arg(
+    odf_response: MultiInputObj[File | ImageIn] = shell.arg(
         argstr="",
         position=1,
         help="""pairs of input ODF image and corresponding responses""",
@@ -112,10 +112,11 @@ class ShConv(shell.Task["ShConv.Outputs"]):
     )
 
     # Stride options:
-    strides: ty.Any = shell.arg(
+    strides: ImageIn | list[int] | None = shell.arg(
         default=None,
         argstr="-strides",
         help="""specify the strides of the output data in memory; either as a comma-separated list of (signed) integers, or as a template image from which the strides shall be extracted and used. The actual strides produced will depend on whether the output image format can support it.""",
+        sep=",",
     )
 
     # Standard options

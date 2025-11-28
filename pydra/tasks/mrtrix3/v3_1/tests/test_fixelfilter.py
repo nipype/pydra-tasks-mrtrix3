@@ -12,17 +12,22 @@ from pydra.tasks.mrtrix3.v3_1 import FixelFilter
 def test_fixelfilter(tmp_path, cli_parse_only):
 
     task = FixelFilter(
+        cfe_c=None,
+        cfe_dh=None,
+        cfe_e=None,
+        cfe_h=None,
+        cfe_legacy=False,
         debug=False,
-        filter="connect",
+        filter="cfe",
         force=False,
         fwhm=None,
-        input=File.sample(),
+        in_file=File.sample(),
         mask=None,
         matrix=File.sample(),
         minweight=None,
-        output=File.sample(),
         threshold_connectivity=None,
         threshold_value=None,
+        out_file=File.sample(),
     )
     result = task(worker="debug")
     assert not result.errored

@@ -26,6 +26,7 @@ def test_fod2fixel(tmp_path, cli_parse_only):
         disp=None,
         fixel_directory=File.sample(),
         peak_amp=None,
+        skew=None,
     )
     result = task(worker="debug")
     assert not result.errored

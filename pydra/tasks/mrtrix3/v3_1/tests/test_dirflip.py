@@ -16,6 +16,7 @@ def test_dirflip(tmp_path, cli_parse_only):
         force=False,
         in_=File.sample(),
         number=None,
+        preserve=None,
         out=File.sample(),
     )
     result = task(worker="debug")

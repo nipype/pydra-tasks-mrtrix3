@@ -1,27 +1,23 @@
-# Auto-generated test for tckdfc
+# Auto-generated test for peaksconvert
 
 import pytest
 from fileformats.generic import File, Directory, FsObject  # noqa
 from fileformats.medimage import Nifti1  # noqa
 from fileformats.vendor.mrtrix3.medimage import ImageFormat, ImageIn, Tracks  # noqa
-from pydra.tasks.mrtrix3.v3_1 import TckDfc
+from pydra.tasks.mrtrix3.v3_1 import PeaksConvert
 
 
 @pytest.mark.xfail
-def test_tckdfc(tmp_path, cli_parse_only):
+def test_peaksconvert(tmp_path, cli_parse_only):
 
-    task = TckDfc(
-        backtrack=False,
+    task = PeaksConvert(
         debug=False,
-        dynamic=None,
-        fmri=Nifti1.sample(),
         force=False,
-        stat_vox=None,
-        static=False,
-        template=None,
-        tracks=File.sample(),
-        upsample=None,
-        vox=None,
+        in_file=Nifti1.sample(),
+        in_format=None,
+        in_reference=None,
+        out_format=None,
+        out_reference=None,
         out_file=File.sample(),
     )
     result = task(worker="debug")

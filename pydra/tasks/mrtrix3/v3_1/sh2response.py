@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -11,7 +11,7 @@ from pydra.utils.typing import MultiInputObj
 @shell.define
 class Sh2Response(shell.Task["Sh2Response.Outputs"]):
     """The spherical harmonic coefficients are stored according to the conventions described in the main documentation, which can be found at the following link:
-    https://mrtrix.readthedocs.io/en/3.0.4/concepts/spherical_harmonics.html
+    https://mrtrix.readthedocs.io/en/3.0.7/concepts/spherical_harmonics.html
 
 
         References
@@ -23,7 +23,7 @@ class Sh2Response(shell.Task["Sh2Response.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com)
 
@@ -56,7 +56,7 @@ class Sh2Response(shell.Task["Sh2Response.Outputs"]):
         position=2,
         help="""the mask containing the voxels from which to estimate the response function""",
     )
-    directions: ImageIn = shell.arg(
+    fibre_directions: ImageIn = shell.arg(
         argstr="",
         position=3,
         help="""a 4D image containing the direction vectors along which to estimate the response function""",

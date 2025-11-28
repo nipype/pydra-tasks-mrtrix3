@@ -1,6 +1,6 @@
 # Auto-generated from MRtrix C++ command with '__print_pydra_code__' secret option
 
-import typing as ty
+from typing import Any
 from pathlib import Path  # noqa: F401
 from fileformats.generic import File, Directory  # noqa: F401
 from fileformats.vendor.mrtrix3.medimage import ImageIn, ImageOut, Tracks  # noqa: F401
@@ -31,7 +31,7 @@ class DwiExtract(shell.Task["DwiExtract.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.4-1402-gd28b95cd, built Aug 22 2025
+        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
 
         Author: David Raffelt (david.raffelt@florey.edu.au) and Thijs Dhollander (thijs.dhollander@gmail.com) and Robert E. Smith (robert.smith@florey.edu.au)
 
@@ -107,6 +107,11 @@ WARNING: note that, even though the b=0 volumes are never referred to as a 'shel
         argstr="-import_pe_table",
         help="""import a phase-encoding table from file""",
     )
+    import_pe_topup: File | None = shell.arg(
+        default=None,
+        argstr="-import_pe_topup",
+        help="""import a phase-encoding table intended for FSL topup from file""",
+    )
     import_pe_eddy: tuple[File, File] | None = shell.arg(
         default=None,
         argstr="-import_pe_eddy",
@@ -123,10 +128,11 @@ WARNING: note that, even though the b=0 volumes are never referred to as a 'shel
     )
 
     # Stride options:
-    strides: ty.Any = shell.arg(
+    strides: ImageIn | list[int] | None = shell.arg(
         default=None,
         argstr="-strides",
         help="""specify the strides of the output data in memory; either as a comma-separated list of (signed) integers, or as a template image from which the strides shall be extracted and used. The actual strides produced will depend on whether the output image format can support it.""",
+        sep=",",
     )
 
     # Standard options
