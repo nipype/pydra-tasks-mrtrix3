@@ -12,7 +12,7 @@ def test_mrinfo(tmp_path, cli_parse_only):
 
     task = MrInfo(
         all=False,
-        bvalue_scaling=False,
+        bvalue_scaling=None,
         datatype=False,
         debug=False,
         dwgrad=False,

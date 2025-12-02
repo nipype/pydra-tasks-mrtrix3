@@ -22,7 +22,7 @@ class Mesh2Voxel(shell.Task["Mesh2Voxel.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
+        Version:3.0.7-1583-g24a09ac5-dirty, built Dec  3 2025
 
         Author: Robert E. Smith (robert.smith@florey.edu.au)
 

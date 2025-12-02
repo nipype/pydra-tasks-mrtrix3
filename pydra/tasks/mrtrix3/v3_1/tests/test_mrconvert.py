@@ -14,7 +14,7 @@ def test_mrconvert(tmp_path, cli_parse_only):
     task = MrConvert(
         append_property=None,
         axes=None,
-        bvalue_scaling=False,
+        bvalue_scaling=None,
         clear_property=None,
         coord=None,
         copy_properties=None,

@@ -29,7 +29,7 @@ class DcmEdit(shell.Task["DcmEdit.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
+        Version:3.0.7-1583-g24a09ac5-dirty, built Dec  3 2025
 
         Author: J-Donald Tournier (jdtournier@gmail.com)
 
@@ -69,7 +69,7 @@ class DcmEdit(shell.Task["DcmEdit.Outputs"]):
         argstr="-id",
         help="""replace all ID tags with string supplied. This consists of tags (0010, 0020) PatientID and (0010, 1000) OtherPatientIDs""",
     )
-    tag: MultiInputObj[tuple[Any, Any, Any]] | None = shell.arg(
+    tag: MultiInputObj[tuple[str, str, str]] | None = shell.arg(
         default=None,
         argstr="-tag",
         help="""replace specific tag.""",

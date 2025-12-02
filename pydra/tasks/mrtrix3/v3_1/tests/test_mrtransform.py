@@ -31,7 +31,7 @@ def test_mrtransform(tmp_path, cli_parse_only):
         nan=False,
         no_reorientation=False,
         oversample=None,
-        reorient_fod=False,
+        reorient_fod=None,
         replace=None,
         strides=None,
         template=None,

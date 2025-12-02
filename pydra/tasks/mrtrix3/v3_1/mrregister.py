@@ -31,7 +31,7 @@ class MrRegister(shell.Task["MrRegister.Outputs"]):
         MRtrix
         ------
 
-        Version:3.0.7-1578-g23fff5b8-dirty, built Nov 28 2025
+        Version:3.0.7-1583-g24a09ac5-dirty, built Dec  3 2025
 
         Author: David Raffelt (david.raffelt@florey.edu.au) and Max Pietsch (maximilian.pietsch@kcl.ac.uk)
 
@@ -313,7 +313,7 @@ class MrRegister(shell.Task["MrRegister.Outputs"]):
         help="""explicitly set the lmax to be used per scale factor in non-linear FOD registration. By default, FOD registration will use lmax 0,2,4 with default scale factors 0.25,0.5,1.0 respectively. Note that no reorientation will be performed with lmax = 0.""",
         sep=",",
     )
-    diagnostics_image: Any = shell.arg(
+    diagnostics_image: str | None = shell.arg(
         default=None,
         argstr="-diagnostics_image",
         help="""write intermediate images for diagnostics purposes""",

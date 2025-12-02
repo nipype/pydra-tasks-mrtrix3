@@ -14,7 +14,7 @@ def test_mtnormalise(tmp_path, cli_parse_only):
         balanced=False,
         debug=False,
         force=False,
-        mask=Nifti1.sample(),
+        mask=File.sample(),
         niter=None,
         order=None,
         reference=None,
