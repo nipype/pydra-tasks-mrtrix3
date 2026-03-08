@@ -1,6 +1,7 @@
+from functools import partial
 import typing as ty
 from fileformats.core import converter, FileSet
-from fileformats.medimage.base import MedicalImage
+from fileformats.medimage import MedicalImage
 from fileformats.vendor.mrtrix3.medimage import (
     ImageFormat as MrtrixImage,
     ImageHeader as MrtrixImageHeader,
@@ -31,17 +32,14 @@ def out_file_template(fileformat: ty.Type[FileSet]) -> str:
 converter(
     source_format=MedicalImage,
     target_format=MrtrixImageGz,
-    out_file=out_file_template(MrtrixImageGz),
-)(MrConvert)
+)(partial(MrConvert, out_file=out_file_template(MrtrixImageGz)))
 
 converter(
     source_format=MedicalImage,
     target_format=MrtrixImageHeader,
-    out_file=out_file_template(MrtrixImageHeader),
-)(MrConvert)
+)(partial(MrConvert, out_file=out_file_template(MrtrixImageHeader)))
 
 converter(
     source_format=MedicalImage,
     target_format=MrtrixImage,
-    out_file=out_file_template(MrtrixImage),
-)(MrConvert)
+)(partial(MrConvert, out_file=out_file_template(MrtrixImage)))
