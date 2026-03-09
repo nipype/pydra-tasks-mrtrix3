@@ -18,7 +18,6 @@ from pydra.compose import shell
 from pydra.utils.typing import MultiInputObj, is_fileset_or_union
 from pydra.utils.general import get_fields, add_exc_note
 
-
 logger = logging.getLogger("pydra-auto-gen")
 
 # Ignore non-standard tools that will need to be added manually
@@ -118,8 +117,7 @@ XFAIL = [
 ]
 
 
-@click.command(
-    help="""Loops through all MRtrix commands to generate Pydra
+@click.command(help="""Loops through all MRtrix commands to generate Pydra
 (https://pydra.readthedocs.io) task interfaces for them
 
 CMD_DIR the command directory to list the commands from
@@ -127,8 +125,7 @@ CMD_DIR the command directory to list the commands from
 OUTPUT_DIR the output directory to write the generated files to
 
 MRTRIX_VERSION the version of MRTrix the commands are generated for
-"""
-)
+""")
 @click.argument(
     "cmd_dir",
     type=click.Path(exists=True, file_okay=False, dir_okay=True, path_type=Path),
