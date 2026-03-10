@@ -9,12 +9,12 @@ from .dwi import (
     ImageFormatB,
     ImageFormatGzB,
     ImageHeaderB,
+    ImageFormatWithDwiEncoding,
 )
 from .track import Tracks
 
 
 __all__ = [
-    "__version__",
     "ImageIn",
     "ImageOut",
     "BFile",
@@ -30,4 +30,5 @@ __all__ = [
     "ImageFormatGz",
     "ImageHeader",
     "ImageDataFile",
+    "ImageFormatWithDwiEncoding",
 ]
