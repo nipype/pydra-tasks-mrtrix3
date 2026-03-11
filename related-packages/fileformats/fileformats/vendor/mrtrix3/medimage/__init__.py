@@ -12,7 +12,6 @@ from .dwi import (
 )
 from .track import Tracks
 
-
 __all__ = [
     "__version__",
     "ImageIn",
