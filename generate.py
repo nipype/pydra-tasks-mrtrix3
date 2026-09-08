@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
+import logging
 import os
-import sys
-from pathlib import Path
+import re
+import shutil
 import subprocess as sp
+import sys
+import tempfile
 import typing as ty
 from importlib import import_module
-import logging
-import tempfile
+from pathlib import Path
 from traceback import format_exc
-import re
-from tqdm import tqdm
-import click
-import black.report
+
 import black.parsing
+import black.report
+import click
 from fileformats.vendor.mrtrix3.medimage import ImageFormat, ImageIn, ImageOut, Tracks
 from pydra.compose import shell
+from pydra.utils.general import add_exc_note, get_fields
 from pydra.utils.typing import MultiInputObj, is_fileset_or_union
-from pydra.utils.general import get_fields, add_exc_note
+from tqdm import tqdm
 
 logger = logging.getLogger("pydra-auto-gen")
 
@@ -176,6 +178,9 @@ def auto_gen_mrtrix3_pydra(
             if not manual_cmd.startswith(".") and not manual_cmd.startswith("__"):
                 manual_cmds.append(manual_cmd)
 
+    shutil.rmtree(
+        output_dir / "pydra" / "tasks" / "mrtrix3" / pkg_version, ignore_errors=True
+    )
     cmds = []
     for cmd_name in tqdm(
         sorted(os.listdir(cmd_dir)),
@@ -201,9 +206,20 @@ def auto_gen_mrtrix3_pydra(
 
     # Write init
     init_path = output_dir / "pydra" / "tasks" / "mrtrix3" / pkg_version / "__init__.py"
-    imports = "\n".join(f"from .{c} import {pascal_case_task_name(c)}" for c in cmds)
+    imports = "\n".join(
+        f"from ..manual.{c} import {pascal_case_task_name(c)}"
+        for c in sorted(manual_cmds)
+    )
     imports += "\n" + "\n".join(
-        f"from ..manual.{c} import {pascal_case_task_name(c)}" for c in manual_cmds
+        f"from .{c} import {pascal_case_task_name(c)}" for c in sorted(cmds)
+    )
+
+    imports += (
+        "\n\n\n__all__ = ["
+        + "\n".join(
+            f'"{pascal_case_task_name(c)}",' for c in sorted(cmds + manual_cmds)
+        )
+        + "\n]"
     )
     init_path.write_text(f"# Auto-generated, do not edit\n\n{imports}\n")
 
@@ -271,9 +287,7 @@ def auto_gen_cmd(
             pass
         except black.parsing.InvalidInput:
             if log_errors:
-                logger.error(
-                    "Could not parse generated interface (%s) for '%s'", cmd_name
-                )
+                logger.error("Could not parse generated interface for '%s'", cmd_name)
                 logger.error(format_exc())
                 return []
             else:
