@@ -2,15 +2,15 @@
 Pydra task package for mrtrix3
 ==============================
 
-.. image:: https://github.com/nipype/pydra-mrtrix3/actions/workflows/pythonpackage.yaml/badge.svg
-   :target: https://github.com/nipype/pydra-mrtrix3/actions/workflows/pythonpackage.yaml
-.. image:: https://codecov.io/gh/nipype/pydra-mrtrix3/branch/main/graph/badge.svg?token=UIS0OGPST7
-   :target: https://codecov.io/gh/nipype/pydra-mrtrix3
-.. image:: https://img.shields.io/pypi/pyversions/pydra-mrtrix3.svg
-   :target: https://pypi.python.org/pypi/pydra-mrtrix3/
+.. image:: https://github.com/nipype/pydra-tasks-mrtrix3/actions/workflows/ci-cd.yaml/badge.svg
+   :target: https://github.com/nipype/pydra-tasks-mrtrix3/actions/workflows/ci-cd.yaml
+.. image:: https://codecov.io/gh/nipype/pydra-tasks-mrtrix3/branch/main/graph/badge.svg?token=UIS0OGPST7
+   :target: https://codecov.io/gh/nipype/pydra-tasks-mrtrix3
+.. image:: https://img.shields.io/pypi/pyversions/pydra-tasks-mrtrix3.svg
+   :target: https://pypi.python.org/pypi/pydra-tasks-mrtrix3/
    :alt: Supported Python versions
-.. image:: https://img.shields.io/pypi/v/pydra-mrtrix3.svg
-   :target: https://pypi.python.org/pypi/pydra-mrtrix3/
+.. image:: https://img.shields.io/pypi/v/pydra-tasks-mrtrix3.svg
+   :target: https://pypi.python.org/pypi/pydra-tasks-mrtrix3/
    :alt: Latest Version
 
 
