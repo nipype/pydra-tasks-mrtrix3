@@ -3,7 +3,7 @@ import typing as ty
 from fileformats.core import FileSet, extra_implementation, validated_property
 from fileformats.generic import BinaryFile
 from fileformats.application.archive import BaseGzip
-from fileformats.core.mixin import WithMagicNumber
+from fileformats.core.mixin import WithAdjacentFiles, WithMagicNumber
 from fileformats.core.exceptions import FormatMismatchError
 import fileformats.medimage
 
@@ -68,7 +68,7 @@ class ImageFormatGz(fileformats.medimage.MedicalImage, BaseGzip):
     ext = ".mif.gz"
 
 
-class ImageHeader(BaseMrtrixImage):
+class ImageHeader(WithAdjacentFiles, BaseMrtrixImage):
 
     ext = ".mih"
     iana_mime = "application/x-mrtrix-image-header"
@@ -77,11 +77,12 @@ class ImageHeader(BaseMrtrixImage):
     def data_file(self):
         return ImageDataFile(self.data_fspath)
 
-    def __attrs_post_init__(self):
-        if len(self.fspaths) == 1:
-            # add in data file if only header file is provided
-            self.fspaths |= set([BaseMrtrixImage(self.fspath).data_fspath])
-        super().__attrs_post_init__()
+    def get_adjacent_files(self) -> ty.Set[Path]:
+        """The data file named in the header (which doesn't need to share its stem), so
+        that it is included in the file set when only the header is provided, and is
+        copied/moved along with it"""
+        data_fspath = BaseMrtrixImage(self.fspath).data_fspath
+        return {Path(data_fspath)} if data_fspath != self.fspath else set()
 
 
 class ImageDataFile(BinaryFile):
