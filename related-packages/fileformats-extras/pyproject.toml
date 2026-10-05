@@ -42,7 +42,7 @@ test = [
     "pytest-cov>=2.12.1",
     "codecov",
     # converts the DICOM test data to NIfTI to test the conversions from
-    "fileformats-medimage-extras",
+    "fileformats-medimage-extras >=0.15.1",
     "medimages4tests",
 ]
 
